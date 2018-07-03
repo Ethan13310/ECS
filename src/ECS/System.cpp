@@ -152,6 +152,9 @@ void ecs::System::onStart()
 void ecs::System::onShutdown()
 {}
 
+void ecs::System::onPreUpdate(float)
+{}
+
 void ecs::System::onUpdate(float)
 {}
 

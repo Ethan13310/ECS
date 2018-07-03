@@ -48,6 +48,10 @@ namespace ecs
 
 		// Triggered on System shut down
 		virtual void onShutdown();
+		
+		// Triggered before each refresh, before the Entities are attached,
+		// detached, enabled or disabled inside the System
+		virtual void onPreUpdate(float elapsed);
 
 		// Triggered for each refresh
 		virtual void onUpdate(float elapsed);

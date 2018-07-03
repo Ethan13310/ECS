@@ -158,6 +158,10 @@ void ecs::World::update(float elapsed)
 
 	m_newSystems.clear();
 
+	m_systems.forEach([elapsed](System &system, detail::TypeId) {
+		system.onPreUpdate(elapsed);
+	});
+
 	updateEntities();
 
 	m_systems.forEach([elapsed](System &system, detail::TypeId) {
