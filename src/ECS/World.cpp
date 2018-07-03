@@ -40,7 +40,7 @@ ecs::Entity ecs::World::createEntity()
 	m_entities[id].isEnabled = true;
 
 	enableEntity(m_entities[id].entity);
-	
+
 	printDebug("World: Entity ", id, " created");
 
 	return m_entities[id].entity;
@@ -296,7 +296,7 @@ ecs::World::AttachStatus ecs::World::tryAttach(System &system, detail::TypeId sy
 			// The Entity has been attached to the System
 			return AttachStatus::Attached;
 		}
-	
+
 		// Otherwise, if the Entity is already attached to the System
 		return AttachStatus::AlreadyAttached;
 	}

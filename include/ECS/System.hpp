@@ -48,7 +48,7 @@ namespace ecs
 
 		// Triggered on System shut down
 		virtual void onShutdown();
-		
+
 		// Triggered before each refresh, before the Entities are attached,
 		// detached, enabled or disabled inside the System
 		virtual void onPreUpdate(float elapsed);
@@ -64,7 +64,7 @@ namespace ecs
 
 		// Triggered when an Entity has been enabled
 		virtual void onEntityEnabled(Entity entity);
-		
+
 		// Triggered when an Entity has been disabled
 		virtual void onEntityDisabled(Entity entity);
 
@@ -111,13 +111,13 @@ namespace ecs
 
 		// Attach event
 		void attachEvent(Entity const &entity);
-		
+
 		// Detach event
 		void detachEvent(Entity const &entity);
-		
+
 		// Enable event
 		void enableEvent(Entity const &entity);
-		
+
 		// Disable event
 		void disableEvent(Entity const &entity);
 

@@ -55,7 +55,7 @@ namespace ecs
 
 		// Create a new Entity
 		Entity createEntity();
-		
+
 		// Create a new named Entity
 		Entity createEntity(std::string const &name);
 
@@ -144,7 +144,7 @@ namespace ecs
 
 		// Add Entity to the Systems it meets the requirements
 		void actionEnable(Entity::Id id);
-		
+
 		// Remove Entity from the Systems it meets the requirements
 		void actionDisable(Entity::Id id);
 

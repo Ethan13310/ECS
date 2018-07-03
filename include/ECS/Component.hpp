@@ -12,7 +12,6 @@ namespace ecs
 
 	struct Component
 	{
-
 	};
 
 	// Get the Type ID for the Component T

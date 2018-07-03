@@ -18,7 +18,7 @@ void ecs::System::detachAll()
 		disableEvent(entity);
 		detachEvent(entity);
 	}
-	
+
 	// Disabled Entities
 	for (auto &entity : m_disabledEntities) {
 		detachEvent(entity);

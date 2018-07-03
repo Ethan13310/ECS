@@ -28,7 +28,7 @@ namespace ecs
 
 		Entity() = default;
 		~Entity() = default;
-		
+
 		Entity(Id id, World &world);
 
 		Entity(Entity const &) = default;

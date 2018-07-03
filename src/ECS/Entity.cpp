@@ -23,7 +23,7 @@ void ecs::Entity::removeAllComponents()
 {
 	m_world.value()->m_components.removeAllComponents(m_id);
 	m_world.value()->refreshEntity(m_id);
-	
+
 	printDebug("Entity: All Components removed");
 }
 

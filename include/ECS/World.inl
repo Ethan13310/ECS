@@ -40,5 +40,5 @@ void ecs::World::removeSystem()
 {
 	m_systems.removeSystem<T>();
 
-	printDebug("World: System ", getSystemTypeId<T>() ," removed");
+	printDebug("World: System ", getSystemTypeId<T>(), " removed");
 }

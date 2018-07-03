@@ -17,7 +17,7 @@ void ecs::detail::ComponentFilter::excludeNotRequired()
 bool ecs::detail::ComponentFilter::check(Mask const &mask) const
 {
 	auto const excludeMask{ m_excluded & mask };
-	
+
 	// Check if there is an excluded component
 	if (excludeMask.any()) {
 		return false;

@@ -9,7 +9,6 @@ namespace ecs
 {
 	struct Event
 	{
-
 	};
 
 	// Get the Type ID for the Event T
