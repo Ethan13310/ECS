@@ -5,6 +5,9 @@
 
 #include <type_traits>
 
+#include <ECS/EventDispatcher.hpp>
+#include <ECS/World.hpp>
+
 template <class Func>
 void ecs::System::forEach(Func &&func)
 {

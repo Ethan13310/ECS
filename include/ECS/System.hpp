@@ -150,5 +150,3 @@ namespace ecs
 	template <class T>
 	detail::TypeId getSystemTypeId() noexcept;
 }
-
-#include <ECS/System.inl>

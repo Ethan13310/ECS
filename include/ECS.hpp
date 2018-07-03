@@ -12,3 +12,4 @@
 
 #include <ECS/World.inl>
 #include <ECS/Entity.inl>
+#include <ECS/System.inl>
