@@ -137,6 +137,15 @@ ecs::World &ecs::System::getWorld()
 	return m_world.value();
 }
 
+ecs::World const &ecs::System::getWorld() const
+{
+	if (!m_world.has_value()) {
+		throw std::runtime_error{ "System is not attached to any World" };
+	}
+
+	return m_world.value();
+}
+
 void ecs::System::onStart()
 {}
 

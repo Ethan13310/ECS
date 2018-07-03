@@ -31,6 +31,7 @@ namespace ecs
 
 		// Get the World that the System belongs to
 		World &getWorld();
+		World const &getWorld() const;
 
 		// Get Entity count
 		std::size_t getEntityCount() const noexcept;
