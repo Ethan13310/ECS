@@ -1,0 +1,11 @@
+.vs/
+*.o
+*.obj
+*.exe
+*.bin
+*.a
+*.lib
+*.dll
+*.so
+*.vcxproj
+*.vcxproj.*
