@@ -38,3 +38,11 @@ void ecs::World::removeSystem()
 {
 	m_systems.removeSystem<T>();
 }
+
+template <class Func>
+void ecs::World::updateSystems(Func &&func)
+{
+	updateEntities();
+
+	m_systems.forEach(std::forward<Func>(func));
+}

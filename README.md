@@ -255,11 +255,14 @@ virtual void onStart();
 // Fired before the System is destroyed. This is the last event to be fired
 virtual void onShutdown();
 
-// Fired each frame, before each Entities have been updated (and then before onUpdate())
+// Fired each frame, before onUpdate()
 virtual void onPreUpdate(float elapsed);
 
 // Fired each frame
 virtual void onUpdate(float elapsed);
+
+// Fired each frame, after onUpdate()
+virtual void onPostUpdate(float elapsed);
 
 // Fired when an Entity has been attached to the System
 // You can use this event to allocate resources for this Entity

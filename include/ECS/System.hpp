@@ -37,6 +37,8 @@ namespace ecs
 
 		// Get the World that the System belongs to
 		World &getWorld();
+
+		// Get the World that the System belongs to (const)
 		World const &getWorld() const;
 
 		// Get Entity count
@@ -55,12 +57,14 @@ namespace ecs
 		// Triggered on System shut down
 		virtual void onShutdown();
 
-		// Triggered before each refresh, before the Entities are attached,
-		// detached, enabled or disabled inside the System
+		// Triggered before each refresh
 		virtual void onPreUpdate(float elapsed);
 
 		// Triggered for each refresh
 		virtual void onUpdate(float elapsed);
+
+		// Triggered after each refresh
+		virtual void onPostUpdate(float elapsed);
 
 		// Triggered when an Entity has been attached to the System
 		virtual void onEntityAttached(Entity entity);
@@ -130,6 +134,9 @@ namespace ecs
 
 		// Update event
 		void updateEvent(float elapsed);
+
+		// Post-update event
+		void postUpdateEvent(float elapsed);
 
 		// Attach event
 		void attachEvent(Entity const &entity);

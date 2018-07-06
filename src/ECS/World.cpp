@@ -3,9 +3,11 @@
 
 #include <stdexcept>
 
-#include <ECS/Entity.inl>
+#include <ECS/Entity.hpp>
 #include <ECS/Exceptions/Exception.hpp>
 #include <ECS/Exceptions/InvalidEntity.hpp>
+#include <ECS/World.hpp>
+#include <ECS/Entity.inl>
 #include <ECS/World.inl>
 
 ecs::World::~World()
@@ -71,6 +73,19 @@ std::optional<ecs::Entity> ecs::World::getEntity(std::string const &name) const
 	return getEntity(it->second);
 }
 
+std::string ecs::World::getEntityName(Entity::Id id) const
+{
+	if (!isEntityValid(id)) {
+		throw InvalidEntity{ "ecs::World::getEntityName()" };
+	}
+
+	if (m_entities[id].name.has_value()) {
+		return m_entities[id].name.value();
+	}
+
+	return {};
+}
+
 void ecs::World::enableEntity(Entity::Id id)
 {
 	if (!isEntityValid(id)) {
@@ -127,19 +142,6 @@ bool ecs::World::isEntityValid(Entity::Id id) const
 	return id < m_entities.size() && m_entities[id].isValid;
 }
 
-std::string ecs::World::getEntityName(Entity::Id id) const
-{
-	if (!isEntityValid(id)) {
-		throw InvalidEntity{ "ecs::World::getEntityName()" };
-	}
-
-	if (m_entities[id].name.has_value()) {
-		return m_entities[id].name.value();
-	}
-
-	return {};
-}
-
 void ecs::World::update(float elapsed)
 {
 	// Start new Systems
@@ -149,14 +151,16 @@ void ecs::World::update(float elapsed)
 
 	m_newSystems.clear();
 
-	m_systems.forEach([elapsed](System &system, detail::TypeId) {
+	updateSystems([elapsed](System &system, detail::TypeId) {
 		system.preUpdateEvent(elapsed);
 	});
 
-	updateEntities();
-
-	m_systems.forEach([elapsed](System &system, detail::TypeId) {
+	updateSystems([elapsed](System &system, detail::TypeId) {
 		system.updateEvent(elapsed);
+	});
+
+	updateSystems([elapsed](System &system, detail::TypeId) {
+		system.postUpdateEvent(elapsed);
 	});
 }
 

@@ -112,6 +112,11 @@ void ecs::System::updateEvent(float elapsed)
 	callEvent(std::bind(&System::onUpdate, this, elapsed));
 }
 
+void ecs::System::postUpdateEvent(float elapsed)
+{
+	callEvent(std::bind(&System::onPostUpdate, this, elapsed));
+}
+
 void ecs::System::attachEvent(Entity const &entity)
 {
 	callEvent(std::bind(&System::onEntityAttached, this, entity));
@@ -170,6 +175,9 @@ void ecs::System::onPreUpdate(float)
 {}
 
 void ecs::System::onUpdate(float)
+{}
+
+void ecs::System::onPostUpdate(float)
 {}
 
 void ecs::System::onEntityAttached(Entity)

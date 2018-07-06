@@ -65,6 +65,9 @@ namespace ecs
 		// Get Entity by name
 		std::optional<ecs::Entity> getEntity(std::string const &name) const;
 
+		// Get Entity name
+		std::string getEntityName(Entity::Id id) const;
+
 		// Enable the Entity
 		void enableEntity(Entity::Id id);
 
@@ -82,9 +85,6 @@ namespace ecs
 
 		// Check whether an Entity is valid or not
 		bool isEntityValid(Entity::Id id) const;
-
-		// Get Entity name
-		std::string getEntityName(Entity::Id id) const;
 
 		// Update the World
 		void update(float elapsed);
@@ -138,6 +138,10 @@ namespace ecs
 
 		// Refresh the Entity Systems list
 		void refreshEntity(Entity::Id id);
+
+		// Update the Systems
+		template <class Func>
+		void updateSystems(Func &&func);
 
 		// Update the Entities within the World (enable, disable, remove)
 		void updateEntities();
