@@ -1,6 +1,9 @@
 // Copyright (c) 2018 Ethan Margaillan <contact@ethan.jp>.
 // Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
+// std::localtime
+#define _CRT_SECURE_NO_WARNINGS
+
 #ifdef _WIN32
 	// Win32 API
 	#include <windows.h>
@@ -182,11 +185,8 @@ std::string ecs::Debug::Impl::getDate() const
 	auto const now{ std::chrono::system_clock::now() };
 	auto const time{ std::chrono::system_clock::to_time_t(now) };
 
-	::tm newTime;
-	::localtime_s(&newTime, &time);
-
 	std::ostringstream ss;
-	ss << std::put_time(&newTime, "%X");
+	ss << std::put_time(std::localtime(&time), "%X");
 	return ss.str();
 }
 
