@@ -18,7 +18,7 @@ T &ecs::World::addSystem(std::size_t priority, Args &&...args)
 	// Set System's World
 	getSystem<T>().m_world = *this;
 
-	printDebug("World: System ", getSystemTypeId<T>(), " added. Priority : ", priority);
+	Debug::logInfo("System " + std::to_string(getSystemTypeId<T>()) + " added.");
 
 	return getSystem<T>();
 }
@@ -40,5 +40,5 @@ void ecs::World::removeSystem()
 {
 	m_systems.removeSystem<T>();
 
-	printDebug("World: System ", getSystemTypeId<T>(), " removed");
+	Debug::logInfo("System " + std::to_string(getSystemTypeId<T>()) + " removed.");
 }

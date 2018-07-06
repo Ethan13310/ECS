@@ -9,9 +9,9 @@
 #include <vector>
 
 #include <ECS/Component.hpp>
+#include <ECS/Debug.hpp>
 #include <ECS/Detail/ComponentFilter.hpp>
 #include <ECS/Detail/ComponentHolder.hpp>
-#include <ECS/Detail/Debug.hpp>
 #include <ECS/Detail/EntityPool.hpp>
 #include <ECS/Detail/ReferenceWrapper.hpp>
 #include <ECS/Detail/SystemHolder.hpp>

@@ -5,6 +5,7 @@
 
 #include <ECS/System.hpp>
 #include <ECS/World.hpp>
+#include <ECS/System.inl>
 
 ecs::System::~System()
 {
@@ -90,32 +91,44 @@ void ecs::System::disableEntity(Entity const &entity)
 	}
 }
 
+void ecs::System::startEvent()
+{
+	callEvent(std::bind(&System::onStart, this));
+}
+
+void ecs::System::shutdownEvent()
+{
+	callEvent(std::bind(&System::onShutdown, this));
+}
+
+void ecs::System::preUpdateEvent(float elapsed)
+{
+	callEvent(std::bind(&System::onPreUpdate, this, elapsed));
+}
+
+void ecs::System::updateEvent(float elapsed)
+{
+	callEvent(std::bind(&System::onUpdate, this, elapsed));
+}
+
 void ecs::System::attachEvent(Entity const &entity)
 {
-	onEntityAttached(entity);
-
-	printDebug("System: Entity ", entity, " attached");
+	callEvent(std::bind(&System::onEntityAttached, this, entity));
 }
 
 void ecs::System::detachEvent(Entity const &entity)
 {
-	onEntityDetached(entity);
-
-	printDebug("System: Entity ", entity, " detached");
+	callEvent(std::bind(&System::onEntityDetached, this, entity));
 }
 
 void ecs::System::enableEvent(Entity const &entity)
 {
-	onEntityEnabled(entity);
-
-	printDebug("System: Entity ", entity, " enabled");
+	callEvent(std::bind(&System::onEntityEnabled, this, entity));
 }
 
 void ecs::System::disableEvent(Entity const &entity)
 {
-	onEntityDisabled(entity);
-
-	printDebug("System: Entity ", entity, " disabled");
+	callEvent(std::bind(&System::onEntityDisabled, this, entity));
 }
 
 std::vector<ecs::Entity> ecs::System::getEntities() const

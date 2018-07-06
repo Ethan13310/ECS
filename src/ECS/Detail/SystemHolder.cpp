@@ -12,7 +12,7 @@ void ecs::detail::SystemHolder::removeAllSystems()
 {
 	for (auto &system : m_systems) {
 		if (system.second != nullptr) {
-			system.second->onShutdown();
+			system.second->shutdownEvent();
 			system.second->detachAll();
 		}
 	}

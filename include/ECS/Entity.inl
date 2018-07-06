@@ -15,8 +15,6 @@ T &ecs::Entity::addComponent(Args &&...args)
 	m_world.value()->m_components.addComponent<T>(m_id, std::make_unique<T>(std::forward<Args>(args)...));
 	m_world.value()->refreshEntity(m_id);
 
-	printDebug("Entity: Component ", getComponentTypeId<T>(), " added");
-
 	return getComponent<T>();
 }
 
@@ -43,6 +41,4 @@ void ecs::Entity::removeComponent()
 {
 	m_world.value()->m_components.removeComponent<T>(m_id);
 	m_world.value()->refreshEntity(m_id);
-
-	printDebug("Entity: Component ", getComponentTypeId<T>(), " removed");
 }

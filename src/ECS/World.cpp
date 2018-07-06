@@ -8,21 +8,21 @@
 
 ecs::World::World()
 {
-	printDebug("World: Created");
+	Debug::logInfo("World created.");
 }
 
 ecs::World::~World()
 {
 	clear();
 
-	printDebug("World: Destroyed");
+	Debug::logInfo("World destroyed.");
 }
 
 void ecs::World::removeAllSystems()
 {
 	m_systems.removeAllSystems();
 
-	printDebug("World: All Systems removed");
+	Debug::logInfo("World : All systems removed.");
 }
 
 ecs::Entity ecs::World::createEntity()
@@ -41,15 +41,13 @@ ecs::Entity ecs::World::createEntity()
 
 	enableEntity(m_entities[id].entity);
 
-	printDebug("World: Entity ", id, " created");
-
 	return m_entities[id].entity;
 }
 
 ecs::Entity ecs::World::createEntity(std::string const &name)
 {
 	if (m_names.find(name) != m_names.end()) {
-		throw std::invalid_argument{ "Entity name already used" };
+		throw std::invalid_argument{ "Entity name already used." };
 	}
 
 	auto const entity{ createEntity() };
@@ -83,7 +81,7 @@ std::optional<ecs::Entity> ecs::World::getEntity(std::string const &name) const
 void ecs::World::enableEntity(Entity::Id id)
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity" };
+		throw std::invalid_argument{ "Invalid Entity." };
 	}
 
 	m_actions.push_back({ id, EntityAction::Action::Enable });
@@ -92,7 +90,7 @@ void ecs::World::enableEntity(Entity::Id id)
 void ecs::World::disableEntity(Entity::Id id)
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity" };
+		throw std::invalid_argument{ "Invalid Entity." };
 	}
 
 	m_actions.push_back({ id, EntityAction::Action::Disable });
@@ -101,7 +99,7 @@ void ecs::World::disableEntity(Entity::Id id)
 void ecs::World::refreshEntity(Entity::Id id)
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity" };
+		throw std::invalid_argument{ "Invalid Entity." };
 	}
 
 	m_actions.push_back({ id, EntityAction::Action::Refresh });
@@ -115,7 +113,7 @@ bool ecs::World::isEntityEnabled(Entity::Id id) const
 void ecs::World::removeEntity(Entity::Id id)
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity" };
+		throw std::invalid_argument{ "Invalid Entity." };
 	}
 
 	m_actions.push_back({ id, EntityAction::Action::Remove });
@@ -139,7 +137,7 @@ bool ecs::World::isEntityValid(Entity::Id id) const
 std::string ecs::World::getEntityName(Entity::Id id) const
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity" };
+		throw std::invalid_argument{ "Invalid Entity." };
 	}
 
 	if (m_entities[id].name.has_value()) {
@@ -153,19 +151,19 @@ void ecs::World::update(float elapsed)
 {
 	// Start new Systems
 	for (auto &system : m_newSystems) {
-		system->onStart();
+		system->startEvent();
 	}
 
 	m_newSystems.clear();
 
 	m_systems.forEach([elapsed](System &system, detail::TypeId) {
-		system.onPreUpdate(elapsed);
+		system.preUpdateEvent(elapsed);
 	});
 
 	updateEntities();
 
 	m_systems.forEach([elapsed](System &system, detail::TypeId) {
-		system.onUpdate(elapsed);
+		system.updateEvent(elapsed);
 	});
 }
 
@@ -181,7 +179,7 @@ void ecs::World::clear()
 	m_components.clear();
 	m_pool.reset();
 
-	printDebug("World: Cleared");
+	Debug::logInfo("World cleared.");
 }
 
 void ecs::World::updateEntities()
@@ -194,7 +192,8 @@ void ecs::World::updateEntities()
 	for (auto const &action : actionsList) {
 		if (!isEntityValid(action.id)) {
 			// An Entity may be invalidated during this loop
-			throw std::invalid_argument{ "Invalid Entity" };
+			Debug::logError("Invalid Entity.");
+			continue;
 		}
 
 		switch (action.action) {
@@ -276,8 +275,6 @@ void ecs::World::actionRemove(Entity::Id id)
 
 	m_components.removeAllComponents(id);
 	m_pool.store(id);
-
-	printDebug("World: Entity ", id, " removed");
 }
 
 ecs::World::AttachStatus ecs::World::tryAttach(System &system, detail::TypeId systemId, Entity::Id id)
@@ -286,12 +283,12 @@ ecs::World::AttachStatus ecs::World::tryAttach(System &system, detail::TypeId sy
 	if (system.getFilter().check(m_components.getComponentsMask(id))) {
 		// Is the Entity not already attached to the System ?
 		if (systemId >= m_entities[id].systems.size() || !m_entities[id].systems[systemId]) {
-			system.attachEntity(m_entities[id].entity);
-
 			if (systemId >= m_entities[id].systems.size()) {
 				m_entities[id].systems.resize(systemId + 1, false);
 			}
+
 			m_entities[id].systems[systemId] = true;
+			system.attachEntity(m_entities[id].entity);
 
 			// The Entity has been attached to the System
 			return AttachStatus::Attached;

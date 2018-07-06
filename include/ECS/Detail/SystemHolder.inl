@@ -27,7 +27,7 @@ T &ecs::detail::SystemHolder::getSystem()
 	auto it{ m_systems.find(getSystemTypeId<T>()) };
 
 	if (it == m_systems.end() || it->second == nullptr) {
-		throw std::invalid_argument{ "World does not have this System" };
+		throw std::invalid_argument{ "World does not have this System." };
 	}
 
 	return *static_cast<T*>(it->second.get());
@@ -67,7 +67,12 @@ void ecs::detail::SystemHolder::forEach(Func &&func)
 		auto &system{ m_systems[typeId.second] };
 
 		if (system != nullptr) {
-			func(*system, typeId.second);
+			try {
+				func(*system, typeId.second);
+			}
+			catch (std::exception const &e) {
+				Debug::logError(e.what());
+			}
 		}
 	}
 }

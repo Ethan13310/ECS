@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include <ECS/Debug.hpp>
 #include <ECS/Detail/ComponentFilter.hpp>
 #include <ECS/Detail/ReferenceWrapper.hpp>
 #include <ECS/Detail/TypeInfo.hpp>
@@ -15,6 +16,11 @@
 
 namespace ecs
 {
+	namespace detail
+	{
+		class SystemHolder;
+	}
+
 	class System
 	{
 	public:
@@ -109,6 +115,22 @@ namespace ecs
 		// Disable Entity
 		void disableEntity(Entity const &entity);
 
+		// Call an event
+		template <class Func>
+		void callEvent(Func &&func);
+
+		// Start event
+		void startEvent();
+
+		// Shutdown event
+		void shutdownEvent();
+
+		// Pre-update event
+		void preUpdateEvent(float elapsed);
+
+		// Update event
+		void updateEvent(float elapsed);
+
 		// Attach event
 		void attachEvent(Entity const &entity);
 
@@ -147,7 +169,10 @@ namespace ecs
 		std::unordered_set<std::size_t> m_events;
 
 		// Only World can access detail::ComponentFilter
-		friend World;
+		friend class World;
+
+		// detail::SystemHolder needs to trigger onShutdown event
+		friend class detail::SystemHolder;
 	};
 
 	// Get the Type ID for the System T

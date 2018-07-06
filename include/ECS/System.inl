@@ -4,6 +4,7 @@
 #pragma once
 
 #include <type_traits>
+#include <utility>
 
 #include <ECS/EventDispatcher.hpp>
 #include <ECS/World.hpp>
@@ -33,6 +34,17 @@ std::size_t ecs::System::connectEvent(Func &&func)
 	m_events.insert(id);
 
 	return id;
+}
+
+template <class Func>
+void ecs::System::callEvent(Func &&func)
+{
+	try {
+		func();
+	}
+	catch (std::exception const &e) {
+		Debug::logError(e.what());
+	}
 }
 
 template <class T>
