@@ -9,7 +9,7 @@
 template <class T>
 void ecs::EventDispatcher::emit(T const &evt) const
 {
-	static_assert(std::is_base_of<Event, T>::value, "T must be an Event");
+	static_assert(std::is_base_of<Event, T>::value, "T must be an Event.");
 
 	auto const range{ m_listeners.equal_range(getEventTypeId<T>()) };
 
@@ -21,7 +21,7 @@ void ecs::EventDispatcher::emit(T const &evt) const
 template <class T, class Func>
 std::size_t ecs::EventDispatcher::connect(Func &&func)
 {
-	static_assert(std::is_base_of<Event, T>::value, "T must be an Event");
+	static_assert(std::is_base_of<Event, T>::value, "T must be an Event.");
 
 	auto slot = [func](void const *evt) {
 		func(*static_cast<T const *>(evt));
@@ -39,7 +39,7 @@ std::size_t ecs::EventDispatcher::connect(Func &&func)
 template <class T>
 void ecs::EventDispatcher::clear()
 {
-	static_assert(std::is_base_of<Event, T>::value, "T must be an Event");
+	static_assert(std::is_base_of<Event, T>::value, "T must be an Event.");
 
 	m_listeners.erase(getEventTypeId<T>());
 }

@@ -3,6 +3,7 @@
 
 #include <algorithm>
 
+#include <ECS/Exceptions/Exception.hpp>
 #include <ECS/System.hpp>
 #include <ECS/World.hpp>
 #include <ECS/System.inl>
@@ -144,7 +145,7 @@ std::size_t ecs::System::getEntityCount() const noexcept
 ecs::World &ecs::System::getWorld()
 {
 	if (!m_world.has_value()) {
-		throw std::runtime_error{ "System is not attached to any World" };
+		throw Exception{ "System is not attached to any World.", "ecs::System::getWorld()" };
 	}
 
 	return m_world.value();
@@ -153,7 +154,7 @@ ecs::World &ecs::System::getWorld()
 ecs::World const &ecs::System::getWorld() const
 {
 	if (!m_world.has_value()) {
-		throw std::runtime_error{ "System is not attached to any World" };
+		throw Exception{ "System is not attached to any World.", "ecs::System::getWorld()" };
 	}
 
 	return m_world.value();

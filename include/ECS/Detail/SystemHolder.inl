@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <stdexcept>
 
+#include <ECS/Exceptions/Exception.hpp>
+
 template <class T>
 void ecs::detail::SystemHolder::addSystem(std::size_t priority, std::unique_ptr<T> &&system)
 {
@@ -27,7 +29,7 @@ T &ecs::detail::SystemHolder::getSystem()
 	auto it{ m_systems.find(getSystemTypeId<T>()) };
 
 	if (it == m_systems.end() || it->second == nullptr) {
-		throw std::invalid_argument{ "World does not have this System." };
+		throw Exception{ "World does not have this System.", "ecs::World::getSystem()" };
 	}
 
 	return *static_cast<T*>(it->second.get());

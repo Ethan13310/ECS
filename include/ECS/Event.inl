@@ -8,7 +8,7 @@
 template <class T>
 ecs::detail::TypeId ecs::getEventTypeId() noexcept
 {
-	static_assert(std::is_base_of<Event, T>::value, "T must be an Event");
+	static_assert(std::is_base_of<Event, T>::value, "T must be an Event.");
 
 	return detail::TypeInfo<Event>::getTypeId<T>();
 }

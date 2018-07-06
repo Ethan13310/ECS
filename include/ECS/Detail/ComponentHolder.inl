@@ -3,21 +3,23 @@
 
 #pragma once
 
-#include <stdexcept>
+#include <ECS/Exceptions/Exception.hpp>
+#include <ECS/Exceptions/InvalidComponent.hpp>
+#include <ECS/Exceptions/InvalidEntity.hpp>
 
 template <class T>
 void ecs::detail::ComponentHolder::addComponent(Entity::Id id, std::unique_ptr<T> &&component)
 {
 	if (id >= m_components.size()) {
 		// The Entity ID is out of range
-		throw std::invalid_argument{ "Invalid Entity" };
+		throw InvalidEntity{ "ecs::Entity::addComponent()" };
 	}
 
 	auto const typeId{ getComponentTypeId<T>() };
 
 	if (typeId >= m_components[id].size()) {
 		// The Component type ID is out of range
-		throw std::invalid_argument{ "Invalid Component" };
+		throw InvalidComponent{ "ecs::Entity::addComponent()" };
 	}
 
 	m_components[id][typeId] = std::move(component);
@@ -30,7 +32,7 @@ T &ecs::detail::ComponentHolder::getComponent(Entity::Id id)
 	auto component{ getComponentPtr<T>(id) };
 
 	if (!component.has_value() || component.value().get() == nullptr) {
-		throw std::invalid_argument{ "Entity does not have this Component" };
+		throw Exception{ "Entity does not have this Component.", "ecs::Entity::getComponent()" };
 	}
 
 	return *static_cast<T*>(component.value()->get());

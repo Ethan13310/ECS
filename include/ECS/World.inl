@@ -18,8 +18,6 @@ T &ecs::World::addSystem(std::size_t priority, Args &&...args)
 	// Set System's World
 	getSystem<T>().m_world = *this;
 
-	Debug::logInfo("System " + std::to_string(getSystemTypeId<T>()) + " added.");
-
 	return getSystem<T>();
 }
 
@@ -39,6 +37,4 @@ template <class T>
 void ecs::World::removeSystem()
 {
 	m_systems.removeSystem<T>();
-
-	Debug::logInfo("System " + std::to_string(getSystemTypeId<T>()) + " removed.");
 }

@@ -4,25 +4,18 @@
 #include <stdexcept>
 
 #include <ECS/Entity.inl>
+#include <ECS/Exceptions/Exception.hpp>
+#include <ECS/Exceptions/InvalidEntity.hpp>
 #include <ECS/World.inl>
-
-ecs::World::World()
-{
-	Debug::logInfo("World created.");
-}
 
 ecs::World::~World()
 {
 	clear();
-
-	Debug::logInfo("World destroyed.");
 }
 
 void ecs::World::removeAllSystems()
 {
 	m_systems.removeAllSystems();
-
-	Debug::logInfo("World : All systems removed.");
 }
 
 ecs::Entity ecs::World::createEntity()
@@ -47,7 +40,7 @@ ecs::Entity ecs::World::createEntity()
 ecs::Entity ecs::World::createEntity(std::string const &name)
 {
 	if (m_names.find(name) != m_names.end()) {
-		throw std::invalid_argument{ "Entity name already used." };
+		throw Exception{ "Entity name already used.", "ecs::World::createEntity()" };
 	}
 
 	auto const entity{ createEntity() };
@@ -81,7 +74,7 @@ std::optional<ecs::Entity> ecs::World::getEntity(std::string const &name) const
 void ecs::World::enableEntity(Entity::Id id)
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity." };
+		throw InvalidEntity{ "ecs::World::enableEntity()" };
 	}
 
 	m_actions.push_back({ id, EntityAction::Action::Enable });
@@ -90,7 +83,7 @@ void ecs::World::enableEntity(Entity::Id id)
 void ecs::World::disableEntity(Entity::Id id)
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity." };
+		throw InvalidEntity{ "ecs::World::disableEntity()" };
 	}
 
 	m_actions.push_back({ id, EntityAction::Action::Disable });
@@ -99,7 +92,7 @@ void ecs::World::disableEntity(Entity::Id id)
 void ecs::World::refreshEntity(Entity::Id id)
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity." };
+		throw InvalidEntity{ "ecs::World::refreshEntity()" };
 	}
 
 	m_actions.push_back({ id, EntityAction::Action::Refresh });
@@ -113,7 +106,7 @@ bool ecs::World::isEntityEnabled(Entity::Id id) const
 void ecs::World::removeEntity(Entity::Id id)
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity." };
+		throw InvalidEntity{ "ecs::World::removeEntity()" };
 	}
 
 	m_actions.push_back({ id, EntityAction::Action::Remove });
@@ -137,7 +130,7 @@ bool ecs::World::isEntityValid(Entity::Id id) const
 std::string ecs::World::getEntityName(Entity::Id id) const
 {
 	if (!isEntityValid(id)) {
-		throw std::invalid_argument{ "Invalid Entity." };
+		throw InvalidEntity{ "ecs::World::getEntityName()" };
 	}
 
 	if (m_entities[id].name.has_value()) {
@@ -178,8 +171,6 @@ void ecs::World::clear()
 	m_evtDispatcher.clearAll();
 	m_components.clear();
 	m_pool.reset();
-
-	Debug::logInfo("World cleared.");
 }
 
 void ecs::World::updateEntities()
@@ -190,29 +181,37 @@ void ecs::World::updateEntities()
 	m_actions.clear();
 
 	for (auto const &action : actionsList) {
-		if (!isEntityValid(action.id)) {
-			// An Entity may be invalidated during this loop
-			Debug::logError("Invalid Entity.");
-			continue;
+		try {
+			executeAction(action);
 		}
-
-		switch (action.action) {
-		case EntityAction::Action::Enable:
-			actionEnable(action.id);
-			break;
-
-		case EntityAction::Action::Disable:
-			actionDisable(action.id);
-			break;
-
-		case EntityAction::Action::Refresh:
-			actionRefresh(action.id);
-			break;
-
-		case EntityAction::Action::Remove:
-			actionRemove(action.id);
-			break;
+		catch (std::exception const &e) {
+			Debug::logError(e.what());
 		}
+	}
+}
+
+void ecs::World::executeAction(EntityAction const &action)
+{
+	if (!isEntityValid(action.id)) {
+		throw InvalidEntity{ "ecs::World::executeAction()" };
+	}
+
+	switch (action.action) {
+	case EntityAction::Action::Enable:
+		actionEnable(action.id);
+		break;
+
+	case EntityAction::Action::Disable:
+		actionDisable(action.id);
+		break;
+
+	case EntityAction::Action::Refresh:
+		actionRefresh(action.id);
+		break;
+
+	case EntityAction::Action::Remove:
+		actionRemove(action.id);
+		break;
 	}
 }
 

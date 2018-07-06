@@ -8,7 +8,7 @@
 template <class T>
 ecs::detail::TypeId ecs::getComponentTypeId() noexcept
 {
-	static_assert(std::is_base_of<Component, T>::value, "T must be a Component");
+	static_assert(std::is_base_of<Component, T>::value, "T must be a Component.");
 
 	return detail::TypeInfo<Component>::getTypeId<T>();
 }

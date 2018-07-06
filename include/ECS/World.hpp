@@ -25,7 +25,7 @@ namespace ecs
 	class World
 	{
 	public:
-		World();
+		World() = default;
 		~World();
 
 		World(World const &) = delete;
@@ -141,6 +141,9 @@ namespace ecs
 
 		// Update the Entities within the World (enable, disable, remove)
 		void updateEntities();
+
+		// Execute an action
+		void executeAction(EntityAction const &action);
 
 		// Add Entity to the Systems it meets the requirements
 		void actionEnable(Entity::Id id);
