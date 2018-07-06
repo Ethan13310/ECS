@@ -43,14 +43,14 @@ If you want to keep the Systems in place, use `removeAllEntities()` instead :
 
 ```cpp
 world.removeAllEntities();
-// Every Entities and their Components have been removed, but Systems are still running
+// Every Entities and their Components have been removed, but the Systems are still running
 ```
 
 ### The Entities
 
 An Entity is what describes an object (the player, a tree, etc.) or anything else which may not have a visual representation (like a music) in your game.
 
-To create an Entity, you have to call the member function `createEntity` of your World object :
+To create an Entity, you have to call the member function `createEntity()` of your World object :
 
 ```cpp
 auto entity{ world.createEntity() };
@@ -110,11 +110,11 @@ entity.isValid(); // or world.isEntityValid(entity);
 
 // Compare two Entities
 if (entity1 == entity2) {
-    // entity1 and entity2 have the same ID and belong to the same World
+    // entity1 and entity2 refer to the same Entity
 }
 ```
 
-The World allows you to retreive Entities by their IDs or their names :
+The World allows you to retreive Entities by their ID or their name :
 
 ```cpp
 auto entity1{ world.getEntity(2) };          // By ID
@@ -172,9 +172,9 @@ if (entity.hasComponent<Health>()) {
 
 ### The Systems
 
-A System is used to manage a group of Entities which meet some requirements (have or do not have specific Components).
+A System is used to manage a group of Entities which meet some requirements.
 
-To create a System, you must inherit from `ecs::System` :
+To create a System, you must create a class which inherits from `ecs::System` :
 
 ```cpp
 class HealthSystem : public ecs::System
@@ -238,13 +238,13 @@ getFilter().excludeNotRequired();
 // No Entity will be attached to the System.
 getFilter().excludeAll();
 
-// 'MyComponent' is no loger required or excluded.
+// 'MyComponent' is no longer required or excluded.
 getFilter().ignore<MyComponent>();
 ```
 
 #### System Events
 
-Systems are also subject to various events. You must overload the functions of the events you want to handle within your System class.
+Systems are also subject to various events. You can overload the functions of the events you want your System to handle.
 
 Here's the list of the events that a System can handle :
 
@@ -276,9 +276,11 @@ virtual void onEntityEnabled(Entity entity);
 virtual void onEntityDisabled(Entity entity);
 ```
 
+**All Entities will be detached from the System through `onEntityDetached()` whatever happens.** So you don't have to worry about releasing resources within the destructor or anything else.
+
 #### Manage Entities
 
-You may want to be able to manipulate each Entities contained by System (within `onUpdate()`, for example). You have to ways to proceed.
+You may want to be able to manipulate each Entities held by System (within `onUpdate()`, for example). You have two ways to proceed.
 
 - The first, by using a lambda :
 
@@ -291,7 +293,7 @@ void HealthSystem::onUpdate(float elapsed)
 }
 ```
 
-- And the second, with a range-based for loop :
+- And the second, by using a range-based for loop :
 
 ```cpp
 void HealthSystem::onUpdate(float elapsed)
@@ -304,25 +306,24 @@ void HealthSystem::onUpdate(float elapsed)
 
 These two methods iterate only through enabled Entities. There's no way to iterate through the disabled ones.
 
-You can query the number enabled and attached Entities by calling `getEntityCount()`.
+You can query the number of enabled Entities attached to the System by calling `getEntityCount()`.
 
 #### My World
 
-If you need to access the World your System belongs to, you can use `getWorld()` :
+If you need to access the World that your System belongs to, you can use `getWorld()` :
 
 ```cpp
 // Access a named Entity
 auto entity{ getWorld().getEntity("MainCharacter").value() };
-
-// A System cannot remove itself
-// getWorld().removeSystem<HealSystem>(); // Boom !!
 ```
+
+**Do not use this to make your System remove itself ! You're warned.**
 
 ### The Event Dispatcher
 
-Systems can also communicate between then thanks to the Event Dispatcher. The Event Dispatcher allows Systems to emit and receive Events.
+Systems can also communicate between them thanks to the Event Dispatcher. The Event Dispatcher allows Systems to emit and receive Events.
 
-An Event is a `struct` which is inherited from `ecs::Event` :
+An Event is a `struct` which inherits from `ecs::Event` :
 
 ```cpp
 struct ButtonClickedEvent : public ecs::Event
@@ -346,7 +347,7 @@ Each Systems which are waiting for a `ButtonClickedEvent` will be notified.
 
 #### Receive an Event
 
-To receive and Event, you need to register it first :
+To receive an Event, you need to register it first :
 
 ```cpp
 void MySystem::buttonClickedHandler(ButtonClickedEvent const &evt)
@@ -371,7 +372,7 @@ auto eventId{ connectEvent<ButtonClickedEvent>(&MySystem::buttonClickedHandler) 
 disconnectEvent(eventId);
 ```
 
-A System can only disconnect his own handlers !
+**A System can only disconnect his own handlers !**
 
 You can also disconnect all handlers your System has registered at once by calling `disconnectAllEvents()`.
 
