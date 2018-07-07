@@ -104,13 +104,11 @@ entity.getName(); // or world.getEntityName(entity);
 entity.isEnabled(); // or world.isEntityEnabled(entity);
 
 // Check whether the Entity is valid or not
-// An entity is considered invalid if it does not belong to any World or if its ID does
-// not correspond to any Entity within the World
 entity.isValid(); // or world.isEntityValid(entity);
 
 // Compare two Entities
 if (entity1 == entity2) {
-    // entity1 and entity2 refer to the same Entity
+    // entity1 and entity2 refer to the same Entity ...
 }
 ```
 
@@ -319,8 +317,6 @@ If you need to access the World that your System belongs to, you can use `getWor
 // Access a named Entity
 auto entity{ getWorld().getEntity("MainCharacter").value() };
 ```
-
-**Do not use this to make your System remove itself ! You're warned.**
 
 ### The Event Dispatcher
 

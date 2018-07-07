@@ -8,7 +8,7 @@
 namespace ecs
 {
 	// The maximum number of Components an Entity can holds
-	constexpr std::size_t MAX_COMPONENTS = 32;
+	constexpr std::size_t MAX_COMPONENTS = 64;
 
 	struct Component
 	{
