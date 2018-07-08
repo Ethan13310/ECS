@@ -250,7 +250,7 @@ Here's the list of the events that a System can handle :
 // Fired after the System has been instantiated
 virtual void onStart();
 
-// Fired before the System is destroyed. This is the last event to be fired
+// Fired before the System is destroyed.
 virtual void onShutdown();
 
 // Fired each frame, before onUpdate()
