@@ -15,55 +15,55 @@
 #include <iostream>
 #include <sstream>
 
-#include <ECS/Debug.hpp>
+#include <ECS/Log.hpp>
 
-// Debug class Instance
-std::optional<ecs::Debug::Impl> ecs::Debug::m_debug;
+// Log class Instance
+std::optional<ecs::Log::Impl> ecs::Log::m_log;
 
-void ecs::Debug::logInfo(std::string const &message)
+void ecs::Log::info(std::string const &message)
 {
-	get().logInfo(message);
+	get().info(message);
 }
 
-void ecs::Debug::logSuccess(std::string const &message)
+void ecs::Log::success(std::string const &message)
 {
-	get().logSuccess(message);
+	get().success(message);
 }
 
-void ecs::Debug::logWarning(std::string const &message)
+void ecs::Log::warning(std::string const &message)
 {
-	get().logWarning(message);
+	get().warning(message);
 }
 
-void ecs::Debug::logError(std::string const &message)
+void ecs::Log::error(std::string const &message)
 {
-	get().logError(message);
+	get().error(message);
 }
 
-void ecs::Debug::enableColors(bool enable)
+void ecs::Log::enableColors(bool enable)
 {
 	get().enableColors(enable);
 }
 
-void ecs::Debug::enableDateTime(bool enable)
+void ecs::Log::enableDateTime(bool enable)
 {
 	get().enableDateTime(enable);
 }
 
-ecs::Debug::Impl &ecs::Debug::get()
+ecs::Log::Impl &ecs::Log::get()
 {
-	if (!m_debug.has_value()) {
-		m_debug = Impl{};
+	if (!m_log.has_value()) {
+		m_log = Impl{};
 	}
 
-	return m_debug.value();
+	return m_log.value();
 }
 
-// ecs::Debug::Impl static variables
-bool ecs::Debug::Impl::m_isInit{ false };
-bool ecs::Debug::Impl::m_colorsAvailable{ false };
+// ecs::Log::Impl static variables
+bool ecs::Log::Impl::m_isInit{ false };
+bool ecs::Log::Impl::m_colorsAvailable{ false };
 
-ecs::Debug::Impl::Impl()
+ecs::Log::Impl::Impl()
 {
 	if (!m_isInit) {
 		m_colorsAvailable = initWindowsConsole();
@@ -73,37 +73,37 @@ ecs::Debug::Impl::Impl()
 	m_enableColors = m_colorsAvailable;
 }
 
-void ecs::Debug::Impl::logInfo(std::string const &message) const
+void ecs::Log::Impl::info(std::string const &message) const
 {
 	log("info", Color::Cyan, message);
 }
 
-void ecs::Debug::Impl::logSuccess(std::string const &message) const
+void ecs::Log::Impl::success(std::string const &message) const
 {
 	log("success", Color::Green, message);
 }
 
-void ecs::Debug::Impl::logWarning(std::string const &message) const
+void ecs::Log::Impl::warning(std::string const &message) const
 {
 	log("warning", Color::Yellow, message);
 }
 
-void ecs::Debug::Impl::logError(std::string const &message) const
+void ecs::Log::Impl::error(std::string const &message) const
 {
 	log("error", Color::Red, message);
 }
 
-void ecs::Debug::Impl::enableColors(bool enable)
+void ecs::Log::Impl::enableColors(bool enable)
 {
 	m_enableColors = m_colorsAvailable && enable;
 }
 
-void ecs::Debug::Impl::enableDateTime(bool enable)
+void ecs::Log::Impl::enableDateTime(bool enable)
 {
 	m_enableDateTime = enable;
 }
 
-void ecs::Debug::Impl::log(std::string const &header, Color headerColor, std::string const &message) const
+void ecs::Log::Impl::log(std::string const &header, Color headerColor, std::string const &message) const
 {
 	printHeader(header, headerColor);
 
@@ -114,7 +114,7 @@ void ecs::Debug::Impl::log(std::string const &header, Color headerColor, std::st
 	printLine(message);
 }
 
-void ecs::Debug::Impl::printHeader(std::string const &str, Color color) const
+void ecs::Log::Impl::printHeader(std::string const &str, Color color) const
 {
 	print("[ ");
 
@@ -126,17 +126,17 @@ void ecs::Debug::Impl::printHeader(std::string const &str, Color color) const
 	print(" ] ");
 }
 
-void ecs::Debug::Impl::printLine(std::string const &message) const
+void ecs::Log::Impl::printLine(std::string const &message) const
 {
 	std::cout << message << std::endl;
 }
 
-void ecs::Debug::Impl::print(std::string const &message) const
+void ecs::Log::Impl::print(std::string const &message) const
 {
 	std::cout << message;
 }
 
-void ecs::Debug::Impl::format(Style style) const
+void ecs::Log::Impl::format(Style style) const
 {
 	if (m_enableColors) {
 		switch (style) {
@@ -154,7 +154,7 @@ void ecs::Debug::Impl::format(Style style) const
 	}
 }
 
-void ecs::Debug::Impl::format(Color color) const
+void ecs::Log::Impl::format(Color color) const
 {
 	if (m_enableColors) {
 		switch (color) {
@@ -180,7 +180,7 @@ void ecs::Debug::Impl::format(Color color) const
 	}
 }
 
-std::string ecs::Debug::Impl::getDate() const
+std::string ecs::Log::Impl::getDate() const
 {
 	auto const now{ std::chrono::system_clock::now() };
 	auto const time{ std::chrono::system_clock::to_time_t(now) };
@@ -190,7 +190,7 @@ std::string ecs::Debug::Impl::getDate() const
 	return ss.str();
 }
 
-bool ecs::Debug::Impl::initWindowsConsole()
+bool ecs::Log::Impl::initWindowsConsole()
 {
 	// Windows only:
 	// Enable console colors

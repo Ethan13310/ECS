@@ -9,7 +9,6 @@
 #include <vector>
 
 #include <ECS/Component.hpp>
-#include <ECS/Debug.hpp>
 #include <ECS/Detail/ComponentFilter.hpp>
 #include <ECS/Detail/ComponentHolder.hpp>
 #include <ECS/Detail/EntityPool.hpp>

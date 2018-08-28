@@ -4,10 +4,10 @@
 #pragma once
 
 #include <ECS/Component.hpp>
-#include <ECS/Debug.hpp>
 #include <ECS/Entity.hpp>
 #include <ECS/Event.hpp>
 #include <ECS/EventDispatcher.hpp>
+#include <ECS/Log.hpp>
 #include <ECS/System.hpp>
 #include <ECS/World.hpp>
 

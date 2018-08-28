@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 #include <ECS/Exceptions/Exception.hpp>
+#include <ECS/Log.hpp>
 
 template <class T>
 void ecs::detail::SystemHolder::addSystem(std::size_t priority, std::unique_ptr<T> &&system)
@@ -73,7 +74,7 @@ void ecs::detail::SystemHolder::forEach(Func &&func)
 				func(*system, typeId.second);
 			}
 			catch (std::exception const &e) {
-				Debug::logError(e.what());
+				Log::error(e.what());
 			}
 		}
 	}

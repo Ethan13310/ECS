@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <ECS/EventDispatcher.hpp>
+#include <ECS/Log.hpp>
 #include <ECS/World.hpp>
 
 template <class Func>
@@ -43,7 +44,7 @@ void ecs::System::callEvent(Func &&func)
 		func();
 	}
 	catch (std::exception const &e) {
-		Debug::logError(e.what());
+		Log::error(e.what());
 	}
 }
 

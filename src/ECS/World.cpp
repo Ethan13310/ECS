@@ -6,6 +6,7 @@
 #include <ECS/Entity.hpp>
 #include <ECS/Exceptions/Exception.hpp>
 #include <ECS/Exceptions/InvalidEntity.hpp>
+#include <ECS/Log.hpp>
 #include <ECS/World.hpp>
 #include <ECS/Entity.inl>
 #include <ECS/World.inl>
@@ -189,7 +190,7 @@ void ecs::World::updateEntities()
 			executeAction(action);
 		}
 		catch (std::exception const &e) {
-			Debug::logError(e.what());
+			Log::error(e.what());
 		}
 	}
 }

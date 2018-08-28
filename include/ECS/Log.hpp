@@ -8,22 +8,22 @@
 
 namespace ecs
 {
-	class Debug
+	class Log
 	{
 	public:
-		Debug() = delete;
+		Log() = delete;
 
 		// Print info message
-		static void logInfo(std::string const &message);
+		static void info(std::string const &message);
 
 		// Print success message
-		static void logSuccess(std::string const &message);
+		static void success(std::string const &message);
 
 		// Print warning message
-		static void logWarning(std::string const &message);
+		static void warning(std::string const &message);
 
 		// Print error message
-		static void logError(std::string const &message);
+		static void error(std::string const &message);
 
 		// Enable or disable colors
 		static void enableColors(bool enable = true);
@@ -34,14 +34,14 @@ namespace ecs
 	private:
 		class Impl;
 
-		// Get Debug class instance
+		// Get Log class instance
 		static Impl &get();
 
-		// Debug class instance
-		static std::optional<Impl> m_debug;
+		// Log class instance
+		static std::optional<Impl> m_log;
 	};
 
-	class Debug::Impl
+	class Log::Impl
 	{
 	public:
 		Impl();
@@ -54,16 +54,16 @@ namespace ecs
 		Impl &operator=(Impl &&) noexcept = default;
 
 		// Print info message
-		void logInfo(std::string const &message) const;
+		void info(std::string const &message) const;
 
 		// Print success message
-		void logSuccess(std::string const &message) const;
+		void success(std::string const &message) const;
 
 		// Print warning message
-		void logWarning(std::string const &message) const;
+		void warning(std::string const &message) const;
 
 		// Print error message
-		void logError(std::string const &message) const;
+		void error(std::string const &message) const;
 
 		// Enable or disable colors
 		void enableColors(bool enable = true);

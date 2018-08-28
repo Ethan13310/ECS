@@ -6,7 +6,6 @@
 #include <optional>
 
 #include <ECS/Component.hpp>
-#include <ECS/Debug.hpp>
 #include <ECS/Detail/ReferenceWrapper.hpp>
 
 namespace ecs

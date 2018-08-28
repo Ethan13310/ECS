@@ -7,7 +7,6 @@
 #include <unordered_set>
 #include <vector>
 
-#include <ECS/Debug.hpp>
 #include <ECS/Detail/ComponentFilter.hpp>
 #include <ECS/Detail/ReferenceWrapper.hpp>
 #include <ECS/Detail/TypeInfo.hpp>
