@@ -32,7 +32,7 @@ The World is what contains all the Entities, Systems and Components. You can use
 ecs::World world;
 ```
 
-You can remove everything that contains the World by calling `clear()` :
+You can remove everything the World contains by calling `clear()` :
 
 ```cpp
 world.clear();
@@ -44,6 +44,12 @@ If you want to keep the Systems in place, use `removeAllEntities()` instead :
 ```cpp
 world.removeAllEntities();
 // Every Entities and their Components have been removed, but the Systems are still running
+```
+
+To update the World, use `update(float)`, which takes the elapsed time as a parameter :
+
+```cpp
+world.update(0.01667f);
 ```
 
 ### The Entities
@@ -204,7 +210,7 @@ if (world.hasSystem<HealthSystem>()) {
 
 #### System Filter
 
-By default, a System accept any Entity. This behaviour can be modified by editing the Filter within the System's constructor :
+By default, a System accepts any Entity. This behaviour can be modified by editing the Filter within the System's constructor :
 
 ```cpp
 class HealthSystem : public ecs::System
@@ -281,7 +287,7 @@ virtual void onEntityDisabled(Entity entity);
 
 #### Manage Entities
 
-You may want to be able to manipulate each Entities held by System (within `onUpdate()`, for example). You have two ways to proceed.
+You may want to be able to manipulate each Entities held by a System (within `onUpdate()`, for example). You have two ways to proceed.
 
 - The first, by using a lambda :
 
@@ -309,7 +315,7 @@ These two methods iterate only through enabled Entities. There's no way to itera
 
 You can query the number of enabled Entities attached to the System by calling `getEntityCount()`.
 
-#### My World
+#### Access the World
 
 If you need to access the World that your System belongs to, you can use `getWorld()` :
 
@@ -375,6 +381,4 @@ disconnectEvent(eventId);
 
 You can also disconnect all handlers your System has registered at once by calling `disconnectAllEvents()`.
 
-### That's all !
-
-Have fun !
+Also, **do not emit or register events within the System's constructor**. Use the `onStart()` function instead.
