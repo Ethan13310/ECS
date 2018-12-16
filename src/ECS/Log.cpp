@@ -5,7 +5,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #ifdef _WIN32
-	// Win32 API
+// Win32 API
 #include <windows.h>
 #endif
 
@@ -208,11 +208,16 @@ bool ecs::Log::Impl::initWindowsConsole()
 		return false;
 	}
 
+	#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+	// Fix build error with MinGW
+	#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+	#endif
+
 	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 
 	if (!SetConsoleMode(hOut, dwMode)) {
 		return false;
-}
+	}
 
 	#endif
 
