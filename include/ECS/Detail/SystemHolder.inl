@@ -37,6 +37,18 @@ T &ecs::detail::SystemHolder::getSystem()
 }
 
 template <class T>
+T const &ecs::detail::SystemHolder::getSystem() const
+{
+	auto it{ m_systems.find(getSystemTypeId<T>()) };
+
+	if (it == m_systems.end() || it->second == nullptr) {
+		throw Exception{ "World does not have this System.", "ecs::World::getSystem()" };
+	}
+
+	return *static_cast<T*>(it->second.get());
+}
+
+template <class T>
 bool ecs::detail::SystemHolder::hasSystem() const
 {
 	auto const it{ m_systems.find(getSystemTypeId<T>()) };

@@ -50,6 +50,7 @@ namespace ecs
 		template <class T>
 		T &getComponent();
 
+		// Get the Component T from the Entity
 		template <class T>
 		T const &getComponent() const;
 

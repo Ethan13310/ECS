@@ -6,7 +6,7 @@
 
 #ifdef _WIN32
 	// Win32 API
-	#include <windows.h>
+#include <windows.h>
 #endif
 
 #include <chrono>
@@ -212,7 +212,7 @@ bool ecs::Log::Impl::initWindowsConsole()
 
 	if (!SetConsoleMode(hOut, dwMode)) {
 		return false;
-	}
+}
 
 	#endif
 

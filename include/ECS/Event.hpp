@@ -9,6 +9,7 @@ namespace ecs
 {
 	struct Event
 	{
+		using Id = std::size_t;
 	};
 
 	// Get the Type ID for the Event T

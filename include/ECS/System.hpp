@@ -11,6 +11,7 @@
 #include <ECS/Detail/ReferenceWrapper.hpp>
 #include <ECS/Detail/TypeInfo.hpp>
 #include <ECS/Entity.hpp>
+#include <ECS/Event.hpp>
 #include <ECS/EventDispatcher.hpp>
 
 namespace ecs
@@ -32,12 +33,12 @@ namespace ecs
 		System &operator=(System &&) = default;
 
 		// Get Entities attached to this System
-		std::vector<Entity> getEntities() const;
+		std::vector<Entity> const &getEntities() const;
 
 		// Get the World that the System belongs to
 		World &getWorld();
 
-		// Get the World that the System belongs to (const)
+		// Get the World that the System belongs to
 		World const &getWorld() const;
 
 		// Get Entity count
@@ -90,10 +91,10 @@ namespace ecs
 
 		// Connect function Func to Event T
 		template <class T, class Func>
-		std::size_t connectEvent(Func &&func);
+		Event::Id connectEvent(Func &&func);
 
 		// Clear connected function ID
-		void disconnectEvent(std::size_t id);
+		void disconnectEvent(Event::Id id);
 
 		// Clear all Events
 		void disconnectAllEvents();

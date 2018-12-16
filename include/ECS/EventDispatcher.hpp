@@ -29,14 +29,14 @@ namespace ecs
 
 		// Connect function Func to Event T
 		template <class T, class Func>
-		std::size_t connect(Func &&func);
+		Event::Id connect(Func &&func);
 
 		// Clear all connected functions to Event T
 		template <class T>
 		void clear();
 
 		// Clear connected function ID
-		void clear(std::size_t id);
+		void clear(Event::Id id);
 
 		// Clear all Events
 		void clearAll();
@@ -46,7 +46,7 @@ namespace ecs
 
 		struct EventReceiverAttributes
 		{
-			std::size_t id;
+			Event::Id id;
 			EventReceiver func;
 		};
 
@@ -54,7 +54,7 @@ namespace ecs
 		std::unordered_multimap<detail::TypeId, EventReceiverAttributes> m_listeners;
 
 		// Next Event handler ID
-		std::size_t m_nextId{ 0 };
+		Event::Id m_nextId{ 0 };
 	};
 }
 

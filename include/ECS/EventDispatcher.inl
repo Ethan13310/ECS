@@ -19,7 +19,7 @@ void ecs::EventDispatcher::emit(T const &evt) const
 }
 
 template <class T, class Func>
-std::size_t ecs::EventDispatcher::connect(Func &&func)
+ecs::Event::Id ecs::EventDispatcher::connect(Func &&func)
 {
 	static_assert(std::is_base_of<Event, T>::value, "T must be an Event.");
 

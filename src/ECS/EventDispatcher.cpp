@@ -8,7 +8,7 @@ void ecs::EventDispatcher::clearAll()
 	m_listeners.clear();
 }
 
-void ecs::EventDispatcher::clear(std::size_t id)
+void ecs::EventDispatcher::clear(Event::Id id)
 {
 	for (auto it{ m_listeners.begin() }; it != m_listeners.end();) {
 		if (it->second.id == id) {

@@ -28,10 +28,10 @@ namespace ecs
 		~World();
 
 		World(World const &) = delete;
-		World(World &&) = delete;
+		World(World &&) = default;
 
 		World &operator=(World const &) = delete;
-		World &operator=(World &&) = delete;
+		World &operator=(World &&) = default;
 
 		// Add a System
 		template <class T, class... Args>

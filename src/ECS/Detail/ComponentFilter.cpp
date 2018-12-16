@@ -3,13 +3,13 @@
 
 #include <ECS/Detail/ComponentFilter.hpp>
 
-void ecs::detail::ComponentFilter::excludeAll()
+void ecs::detail::ComponentFilter::excludeAll() noexcept
 {
 	m_required.reset();
 	m_excluded.set();
 }
 
-void ecs::detail::ComponentFilter::excludeNotRequired()
+void ecs::detail::ComponentFilter::excludeNotRequired() noexcept
 {
 	m_excluded = ~m_required;
 }

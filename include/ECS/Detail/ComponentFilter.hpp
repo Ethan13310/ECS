@@ -7,53 +7,50 @@
 
 #include <ECS/Component.hpp>
 
-namespace ecs
+namespace ecs::detail
 {
-	namespace detail
+	class ComponentFilter
 	{
-		class ComponentFilter
-		{
-		public:
-			using Mask = std::bitset<MAX_COMPONENTS>;
+	public:
+		using Mask = std::bitset<MAX_COMPONENTS>;
 
-			ComponentFilter() = default;
-			~ComponentFilter() = default;
+		ComponentFilter() noexcept = default;
+		~ComponentFilter() = default;
 
-			ComponentFilter(ComponentFilter const &) = default;
-			ComponentFilter(ComponentFilter &&) noexcept = default;
+		ComponentFilter(ComponentFilter const &) noexcept = default;
+		ComponentFilter(ComponentFilter &&) noexcept = default;
 
-			ComponentFilter &operator=(ComponentFilter const &) = default;
-			ComponentFilter &operator=(ComponentFilter &&) noexcept = default;
+		ComponentFilter &operator=(ComponentFilter const &) noexcept = default;
+		ComponentFilter &operator=(ComponentFilter &&) noexcept = default;
 
-			// Check if an Entity matches the requirements
-			bool check(Mask const &mask) const;
+		// Check if an Entity matches the requirements
+		bool check(Mask const &mask) const;
 
-			// Make a Component required
-			template <class T>
-			void require();
+		// Make a Component required
+		template <class T>
+		void require();
 
-			// Make a Component excluded
-			template <class T>
-			void exclude();
+		// Make a Component excluded
+		template <class T>
+		void exclude();
 
-			// Exclude all Components that are not required
-			void excludeNotRequired();
+		// Exclude all Components that are not required
+		void excludeNotRequired() noexcept;
 
-			// Exclude all Components
-			void excludeAll();
+		// Exclude all Components
+		void excludeAll() noexcept;
 
-			// Remove a Component from both lists
-			template <class T>
-			void ignore();
+		// Remove a Component from both lists
+		template <class T>
+		void ignore();
 
-		private:
-			// List of required components
-			Mask m_required;
+	private:
+		// List of required components
+		Mask m_required;
 
-			// List of excluded components
-			Mask m_excluded;
-		};
-	}
+		// List of excluded components
+		Mask m_excluded;
+	};
 }
 
 #include <ECS/Detail/ComponentFilter.inl>

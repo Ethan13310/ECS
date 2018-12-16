@@ -14,66 +14,63 @@
 #include <ECS/Detail/TypeInfo.hpp>
 #include <ECS/Entity.hpp>
 
-namespace ecs
+namespace ecs::detail
 {
-	namespace detail
+	class ComponentHolder
 	{
-		class ComponentHolder
-		{
-		public:
-			ComponentHolder() = default;
-			~ComponentHolder() = default;
+	public:
+		ComponentHolder() = default;
+		~ComponentHolder() = default;
 
-			ComponentHolder(ComponentHolder const &) = delete;
-			ComponentHolder(ComponentHolder &&) = default;
+		ComponentHolder(ComponentHolder const &) = delete;
+		ComponentHolder(ComponentHolder &&) = default;
 
-			ComponentHolder &operator=(ComponentHolder const &) = delete;
-			ComponentHolder &operator=(ComponentHolder &&) = default;
+		ComponentHolder &operator=(ComponentHolder const &) = delete;
+		ComponentHolder &operator=(ComponentHolder &&) = default;
 
-			// Add the component T to the Entity
-			template <class T>
-			void addComponent(Entity::Id id, std::unique_ptr<T> &&component);
+		// Add the component T to the Entity
+		template <class T>
+		void addComponent(Entity::Id id, std::unique_ptr<T> &&component);
 
-			// Get the Component T from the Entity
-			template <class T>
-			T &getComponent(Entity::Id id);
+		// Get the Component T from the Entity
+		template <class T>
+		T &getComponent(Entity::Id id);
 
-			// Check whether the Entity has the Component T or not
-			template <class T>
-			bool hasComponent(Entity::Id id) const;
+		// Check whether the Entity has the Component T or not
+		template <class T>
+		bool hasComponent(Entity::Id id) const;
 
-			// Remove the Component T from the Entity
-			template <class T>
-			void removeComponent(Entity::Id id);
+		// Remove the Component T from the Entity
+		template <class T>
+		void removeComponent(Entity::Id id);
 
-			// Remove all components from the Entity
-			void removeAllComponents(Entity::Id id);
+		// Remove all components from the Entity
+		void removeAllComponents(Entity::Id id);
 
-			// Get the Component mask for the given Entity
-			ComponentFilter::Mask getComponentsMask(Entity::Id id) const;
+		// Get the Component mask for the given Entity
+		ComponentFilter::Mask getComponentsMask(Entity::Id id) const;
 
-			// Resize the Component array
-			void resize(std::size_t size);
+		// Resize the Component array
+		void resize(std::size_t size);
 
-			// Clear all Components
-			void clear() noexcept;
+		// Clear all Components
+		void clear() noexcept;
 
-		private:
-			template <class T>
-			std::optional<ReferenceWrapper<std::unique_ptr<Component>>> getComponentPtr(Entity::Id id);
+	private:
+		template <class T>
+		std::optional<ReferenceWrapper<std::unique_ptr<Component>>> getComponentPtr(Entity::Id id);
 
-			// The index of this array matches the Component type ID
-			using ComponentArray = std::array<std::unique_ptr<Component>, MAX_COMPONENTS>;
+		// The index of this array matches the Component type ID
+		using ComponentArray = std::array<std::unique_ptr<Component>, MAX_COMPONENTS>;
 
-			// List of all Components of all Entities
-			// The index of this array matches the Entity ID
-			std::vector<ComponentArray> m_components;
+		// List of all Components of all Entities
+		// The index of this array matches the Entity ID
+		std::vector<ComponentArray> m_components;
 
-			// List of all masks of all Composents of all Entities
-			// The index of this array matches the Entity ID
-			std::vector<ComponentFilter::Mask> m_componentsMasks;
-		};
-	}
+		// List of all masks of all Composents of all Entities
+		// The index of this array matches the Entity ID
+		std::vector<ComponentFilter::Mask> m_componentsMasks;
+	};
 }
 
 #include <ECS/Detail/ComponentHolder.inl>

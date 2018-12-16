@@ -27,7 +27,7 @@ void ecs::System::emitEvent(T const &evt) const
 }
 
 template <class T, class Func>
-std::size_t ecs::System::connectEvent(Func &&func)
+ecs::Event::Id ecs::System::connectEvent(Func &&func)
 {
 	auto const id{ getWorld().m_evtDispatcher.connect<T>(std::forward<Func>(func)) };
 

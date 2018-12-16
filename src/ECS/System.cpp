@@ -137,7 +137,7 @@ void ecs::System::disableEvent(Entity const &entity)
 	callEvent(std::bind(&System::onEntityDisabled, this, entity));
 }
 
-std::vector<ecs::Entity> ecs::System::getEntities() const
+std::vector<ecs::Entity> const &ecs::System::getEntities() const
 {
 	return m_enabledEntities;
 }
@@ -197,7 +197,7 @@ ecs::detail::ComponentFilter &ecs::System::getFilter()
 	return m_filter;
 }
 
-void ecs::System::disconnectEvent(std::size_t id)
+void ecs::System::disconnectEvent(Event::Id id)
 {
 	if (m_events.find(id) != m_events.end()) {
 		getWorld().m_evtDispatcher.clear(id);

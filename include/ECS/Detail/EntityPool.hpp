@@ -7,38 +7,35 @@
 
 #include <ECS/Entity.hpp>
 
-namespace ecs
+namespace ecs::detail
 {
-	namespace detail
+	class EntityPool
 	{
-		class EntityPool
-		{
-		public:
-			EntityPool() = default;
-			~EntityPool() = default;
+	public:
+		EntityPool() = default;
+		~EntityPool() = default;
 
-			EntityPool(EntityPool const &) = delete;
-			EntityPool(EntityPool &&) noexcept = default;
+		EntityPool(EntityPool const &) = delete;
+		EntityPool(EntityPool &&) = default;
 
-			EntityPool &operator=(EntityPool const &) = delete;
-			EntityPool &operator=(EntityPool &&) noexcept = default;
+		EntityPool &operator=(EntityPool const &) = delete;
+		EntityPool &operator=(EntityPool &&) = default;
 
-			// Create an Entity ID
-			Entity::Id create();
+		// Create an Entity ID
+		Entity::Id create();
 
-			// Store an Entity ID
-			void store(Entity::Id id);
+		// Store an Entity ID
+		void store(Entity::Id id);
 
-			// Remove all Entity IDs stored within the pool and
-			// reset the next Entity ID value
-			void reset() noexcept;
+		// Remove all Entity IDs stored within the pool and
+		// reset the next Entity ID value
+		void reset() noexcept;
 
-		private:
-			// List of stored Entities IDs
-			std::vector<Entity::Id> m_storedIds;
+	private:
+		// List of stored Entities IDs
+		std::vector<Entity::Id> m_storedIds;
 
-			// Next Entity ID
-			Entity::Id m_nextId{ 0 };
-		};
-	}
+		// Next Entity ID
+		Entity::Id m_nextId{ 0 };
+	};
 }

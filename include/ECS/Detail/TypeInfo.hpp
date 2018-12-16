@@ -5,33 +5,30 @@
 
 #include <cstddef>
 
-namespace ecs
+namespace ecs::detail
 {
-	namespace detail
+	using TypeId = std::size_t;
+
+	template <class BaseT>
+	class TypeInfo
 	{
-		using TypeId = std::size_t;
+	public:
+		TypeInfo() = delete;
 
-		template <class BaseT>
-		class TypeInfo
-		{
-		public:
-			TypeInfo() = delete;
+		// Get the type ID of T which is a base of BaseT
+		template <class T>
+		static TypeId getTypeId() noexcept;
 
-			// Get the type ID of T which is a base of BaseT
-			template <class T>
-			static TypeId getTypeId() noexcept;
+	private:
+		// Get the next type ID for BaseT
+		static TypeId nextTypeId() noexcept;
 
-		private:
-			// Get the next type ID for BaseT
-			static TypeId nextTypeId() noexcept;
+		// Next type ID for BaseT
+		static TypeId m_nextTypeId;
+	};
 
-			// Next type ID for BaseT
-			static TypeId m_nextTypeId;
-		};
-
-		template <class BaseT>
-		TypeId TypeInfo<BaseT>::m_nextTypeId{ 0 };
-	}
+	template <class BaseT>
+	TypeId TypeInfo<BaseT>::m_nextTypeId{ 0 };
 }
 
 #include <ECS/Detail/TypeInfo.inl>
