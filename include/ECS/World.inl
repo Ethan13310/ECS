@@ -28,6 +28,12 @@ T &ecs::World::getSystem()
 }
 
 template <class T>
+T const &ecs::World::getSystem() const
+{
+	return m_systems.getSystem<T>();
+}
+
+template <class T>
 bool ecs::World::hasSystem() const
 {
 	return m_systems.hasSystem<T>();

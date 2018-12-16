@@ -41,6 +41,10 @@ namespace ecs
 		template <class T>
 		T &getSystem();
 
+		// Get a System
+		template <class T>
+		T const &getSystem() const;
+
 		// Check whether a System exists or not
 		template <class T>
 		bool hasSystem() const;
