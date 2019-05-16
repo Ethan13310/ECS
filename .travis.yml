@@ -1,0 +1,31 @@
+language: cpp
+
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - CC=gcc-7
+        - CXX=g++-7
+    - os: macos
+      osx_image: xcode10.2
+    - os: windows
+
+install:
+  - git clone https://github.com/Ethan13310/ECS.git ~/ECS
+
+before_script:
+  - cd ~/ECS
+  - mkdir build
+  - cd build
+
+script:
+  - cmake .. -DWITH_UNIT_TESTS=1
+  - cmake --build . --config Release
+  - ctest -C Release

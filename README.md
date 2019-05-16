@@ -1,5 +1,5 @@
 # ECS Library
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![Build Status](https://travis-ci.com/Ethan13310/ECS.svg?branch=master)](https://travis-ci.com/Ethan13310/ECS)
 
 An open-source **[Entity Component System](https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system)** library written in C++17.
 
