@@ -1,4 +1,8 @@
 .vs/
+.idea/
+build/
+obj/
+bin/
 *.o
 *.obj
 *.exe
