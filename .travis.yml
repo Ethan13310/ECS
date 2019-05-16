@@ -107,17 +107,6 @@ matrix:
     #    Clang on macOS     #
     #########################
 
-    # XCode 10.0
-    - env: COMPILER=clang++ BUILD_TYPE=Debug
-      os: osx
-      osx_image: xcode10
-      compiler: clang
-
-    - env: COMPILER=clang++ BUILD_TYPE=Release
-      os: osx
-      osx_image: xcode10
-      compiler: clang
-
     # XCode 10.2
     - env: COMPILER=clang++ BUILD_TYPE=Debug
       os: osx
@@ -133,11 +122,18 @@ matrix:
     #    MSVC on Windows    #
     #########################
 
-    # MSVC 14.1
-    - env: COMPILER=cl BUILD_TYPE=Debug
+    # MSVC 14.0
+    - env: COMPILER=cl MSVC_VER="Visual Studio 14 2015" BUILD_TYPE=Debug
       os: windows
 
-    - env: COMPILER=cl BUILD_TYPE=Release
+    - env: COMPILER=cl MSVC_VER="Visual Studio 14 2015" BUILD_TYPE=Release
+      os: windows
+    
+    # MSVC 14.1
+    - env: COMPILER=cl MSVC_VER="Visual Studio 15 2017" BUILD_TYPE=Debug
+      os: windows
+
+    - env: COMPILER=cl MSVC_VER="Visual Studio 15 2017" BUILD_TYPE=Release
       os: windows
 
 install:
@@ -151,7 +147,7 @@ before_script:
 script:
   - |
     if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
-      cmake .. -G "Visual Studio 15 2017 Win64" -T host=x64 -DWITH_UNIT_TESTS=1
+      cmake .. -G "${MSVC_VER}" -T host=x64 -DWITH_UNIT_TESTS=1
     else
       cmake .. -DWITH_UNIT_TESTS=1
     fi
