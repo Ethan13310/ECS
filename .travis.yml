@@ -122,20 +122,13 @@ matrix:
     #    MSVC on Windows    #
     #########################
 
-    # MSVC 14.0
-    - env: COMPILER=cl MSVC_VER="2015 Win64" MSVC_ID=14 BUILD_TYPE=Debug
-      os: windows
-
-    - env: COMPILER=cl MSVC_VER="2015 Win64" MSVC_ID=14 BUILD_TYPE=Release
-      os: windows
-    
     # MSVC 14.1
     - env: COMPILER=cl MSVC_VER="2017 Win64" MSVC_ID=15 BUILD_TYPE=Debug
       os: windows
 
     - env: COMPILER=cl MSVC_VER="2017 Win64" MSVC_ID=15 BUILD_TYPE=Release
       os: windows
-      
+
     # MSVC 15.0
     - env: COMPILER=cl MSVC_VER="2019" MSVC_ID=16 BUILD_TYPE=Debug
       os: windows
@@ -148,8 +141,10 @@ install:
   # Visual Studio Build Tools installation on Windows
   - |
     if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
-      if [ "${MSVC_ID}" = "14" ]; then choco install -y vcbuildtools; fi
-      if [ "${MSVC_ID}" = "16" ]; then choco install -y visualstudio2019buildtools; fi
+      if [ "${MSVC_ID}" = "16" ]; then
+        choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+        choco upgrade cmake.install
+      fi
     fi
 
 before_script:

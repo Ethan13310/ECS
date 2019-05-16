@@ -9,7 +9,7 @@ An open-source **[Entity Component System](https://en.wikipedia.org/wiki/Entity%
 
 - A compiler that supports C++17 :
   - [GNU C++ Compiler](https://gcc.gnu.org/) >= 7.1
-  - [Microsoft Visual C++](https://visualstudio.microsoft.com/) >= 14.0 (Visual Studio 2015)
+  - [Microsoft Visual C++](https://visualstudio.microsoft.com/) >= 14.1 (Visual Studio 2017)
   - [Clang++](https://clang.llvm.org/) >= 5.0
   - macOS >= 10.14 with XCode >= 10.2
 - [CMake](https://cmake.org/) >= 3.8
