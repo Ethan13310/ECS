@@ -123,21 +123,34 @@ matrix:
     #########################
 
     # MSVC 14.0
-    - env: COMPILER=cl MSVC_VER="Visual Studio 14 2015 Win64" BUILD_TYPE=Debug
+    - env: COMPILER=cl MSVC_VER="2015 Win64" MSVC_ID=14 BUILD_TYPE=Debug
       os: windows
 
-    - env: COMPILER=cl MSVC_VER="Visual Studio 14 2015 Win64" BUILD_TYPE=Release
+    - env: COMPILER=cl MSVC_VER="2015 Win64" MSVC_ID=14 BUILD_TYPE=Release
       os: windows
     
     # MSVC 14.1
-    - env: COMPILER=cl MSVC_VER="Visual Studio 15 2017 Win64" BUILD_TYPE=Debug
+    - env: COMPILER=cl MSVC_VER="2017 Win64" MSVC_ID=15 BUILD_TYPE=Debug
       os: windows
 
-    - env: COMPILER=cl MSVC_VER="Visual Studio 15 2017 Win64" BUILD_TYPE=Release
+    - env: COMPILER=cl MSVC_VER="2017 Win64" MSVC_ID=15 BUILD_TYPE=Release
+      os: windows
+      
+    # MSVC 15.0
+    - env: COMPILER=cl MSVC_VER="2019" MSVC_ID=16 BUILD_TYPE=Debug
+      os: windows
+
+    - env: COMPILER=cl MSVC_VER="2019" MSVC_ID=16 BUILD_TYPE=Release
       os: windows
 
 install:
   - export CXX=${COMPILER}
+  # Visual Studio Build Tools installation on Windows
+  - |
+    if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
+      if [ "${MSVC_ID}" = "14" ]; then choco install -y vcbuildtools; fi
+      if [ "${MSVC_ID}" = "16" ]; then choco install -y visualstudio2019buildtools; fi
+    fi
 
 before_script:
   - cd "${TRAVIS_BUILD_DIR}"
@@ -147,7 +160,7 @@ before_script:
 script:
   - |
     if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
-      cmake .. -G "${MSVC_VER}" -T host=x64 -DWITH_UNIT_TESTS=1
+      cmake .. -G "Visual Studio ${MSVC_ID} ${MSVC_VER}" -T host=x64 -DWITH_UNIT_TESTS=1
     else
       cmake .. -DWITH_UNIT_TESTS=1
     fi
