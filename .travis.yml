@@ -120,11 +120,10 @@ matrix:
 
 install:
   - export CXX=${COMPILER}
-  - git clone https://github.com/Ethan13310/ECS.git ~/ECS
 
 before_script:
-  - cd ~/ECS
-  - mkdir -p build
+  - cd "${TRAVIS_BUILD_DIR}"
+  - mkdir build
   - cd build
 
 script:
