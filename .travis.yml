@@ -6,11 +6,11 @@ dist: xenial
 
 matrix:
   include:
-  
+
     #########################
     #     GCC on Linux      #
     #########################
-  
+
     # GCC 7
     - env: COMPILER=g++-7 BUILD_TYPE=Debug
       addons: &gcc7
@@ -19,10 +19,10 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
-            
+
     - env: COMPILER=g++-7 BUILD_TYPE=Release
       addons: *gcc7
-      
+
     # GCC 8
     - env: COMPILER=g++-8 BUILD_TYPE=Debug
       addons: &gcc8
@@ -31,14 +31,14 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-8
-            
+
     - env: COMPILER=g++-8 BUILD_TYPE=Release
       addons: *gcc8
-      
+
     #########################
     #    Clang on Linux     #
     #########################
-    
+
     # Clang 5.0
     - env: COMPILER=clang++-5.0 BUILD_TYPE=Debug
       addons: &clang5
@@ -51,10 +51,10 @@ matrix:
           packages:
             - clang-5.0
             - g++-7
-    
+
     - env: COMPILER=clang++-5.0 BUILD_TYPE=Release
       addons: *clang5
-      
+
     # Clang 6.0
     - env: COMPILER=clang++-6.0 BUILD_TYPE=Debug
       addons: &clang6
@@ -67,26 +67,42 @@ matrix:
           packages:
             - clang-6.0
             - g++-7
-    
+
     - env: COMPILER=clang++-6.0 BUILD_TYPE=Release
       addons: *clang6
-    
+
     # Clang 7.0
-    - env: COMPILER=clang++-7.0 BUILD_TYPE=Debug
+    - env: COMPILER=clang++-7 BUILD_TYPE=Debug
       addons: &clang7
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-xenial-7.0
-            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7.0 main"
+            - llvm-toolchain-xenial-7
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main"
               key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
           packages:
-            - clang-7.0
+            - clang-7
             - g++-7
-    
-    - env: COMPILER=clang++-7.0 BUILD_TYPE=Release
+
+    - env: COMPILER=clang++-7 BUILD_TYPE=Release
       addons: *clang7
-      
+
+    # Clang 8.0
+    - env: COMPILER=clang++-8 BUILD_TYPE=Debug
+      addons: &clang8
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-xenial-8
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main"
+              key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+          packages:
+            - clang-8
+            - g++-8
+
+    - env: COMPILER=clang++-8 BUILD_TYPE=Release
+      addons: *clang8
+
     #########################
     #    Clang on macOS     #
     #########################
@@ -96,31 +112,31 @@ matrix:
       os: osx
       osx_image: xcode9.4
       compiler: clang
-    
+
     - env: COMPILER=clang++ BUILD_TYPE=Release
       os: osx
       osx_image: xcode9.4
       compiler: clang
-      
+
     # XCode 10.2
     - env: COMPILER=clang++ BUILD_TYPE=Debug
       os: osx
       osx_image: xcode10.2
-      compiler: clang      
-    
+      compiler: clang
+
     - env: COMPILER=clang++ BUILD_TYPE=Release
       os: osx
       osx_image: xcode10.2
       compiler: clang
-      
+
     #########################
     #    MSVC on Windows    #
     #########################
-    
+
     # MSVC 14.1
     - env: COMPILER=cl BUILD_TYPE=Debug
       os: windows
-      
+
     - env: COMPILER=cl BUILD_TYPE=Release
       os: windows
 
