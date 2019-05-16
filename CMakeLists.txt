@@ -1,45 +1,46 @@
-cmake_minimum_required(VERSION 3.9)
+# --- ECS Project
 
-project("ECS" CXX)
+cmake_minimum_required(VERSION 3.8)
+project(ECS CXX)
 
-# C++17
+# --- C++17 Standard
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7.1")
-	# G++ minimal version (7.1)
-	message(FATAL_ERROR "GCC version 7.1 or greater is required.")
-elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "5.0")
-	# Clang minimal version (5.0)
-	message(FATAL_ERROR "Clang version 5.0 or greater is required.")
-elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "14.1")
-	# MSVC minimal version (14.1)
-	message(FATAL_ERROR "Microsoft Visual C++ version 2017 (14.1) or greater is required.")
-endif ()
-
-if (NOT CMAKE_BUILD_TYPE)
-	set(CMAKE_BUILD_TYPE Release)
-endif ()
-
-set(CMAKE_CONFIGURATION_TYPES Release Debug)
+# --- Compilers Options
 
 if (MSVC)
-	# Multicore build with Visual Studio
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
-else ()
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-endif ()
+    add_compile_options("/W4" "/MP")
+else()
+    add_compile_options("-Wall" "-Wextra")
+endif()
 
-include_directories("${CMAKE_SOURCE_DIR}/include")
+# --- Include Directories
 
-file(GLOB_RECURSE ECS_HEADERS "${CMAKE_SOURCE_DIR}/include/*.hpp")
-file(GLOB_RECURSE ECS_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
+include_directories("include")
 
-add_library("ECS" "${ECS_SOURCES}" "${ECS_HEADERS}")
+# --- Source Files
 
-if (NOT WIN32)
-	# Install directories
-	install(TARGETS "ECS" ARCHIVE DESTINATION "lib")
-	install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/" DESTINATION "include")
-endif ()
+file(GLOB_RECURSE ECS_SOURCES "src/*.cpp")
+
+add_library(ECS STATIC ${ECS_SOURCES})
+
+# --- Install Directories
+
+install(TARGETS ECS DESTINATION "lib")
+install(DIRECTORY "include/" DESTINATION "include")
+
+# --- Unit Tests
+
+option(WITH_UNIT_TESTS "If set, the unit tests will be built." OFF)
+
+if (WITH_UNIT_TESTS)
+    message(STATUS "Building WITH unit tests.")
+
+    enable_testing()
+    add_subdirectory("tests")
+else()
+    message(STATUS "Building WITHOUT unit tests. Re-run CMake with the option -DWITH_UNIT_TESTS=1 to enable them.")
+endif()
