@@ -123,17 +123,17 @@ matrix:
     #########################
 
     # MSVC 14.0
-    - env: COMPILER=cl MSVC_VER="Visual Studio 14 2015" BUILD_TYPE=Debug
+    - env: COMPILER=cl MSVC_VER="Visual Studio 14 2015 Win64" BUILD_TYPE=Debug
       os: windows
 
-    - env: COMPILER=cl MSVC_VER="Visual Studio 14 2015" BUILD_TYPE=Release
+    - env: COMPILER=cl MSVC_VER="Visual Studio 14 2015 Win64" BUILD_TYPE=Release
       os: windows
     
     # MSVC 14.1
-    - env: COMPILER=cl MSVC_VER="Visual Studio 15 2017" BUILD_TYPE=Debug
+    - env: COMPILER=cl MSVC_VER="Visual Studio 15 2017 Win64" BUILD_TYPE=Debug
       os: windows
 
-    - env: COMPILER=cl MSVC_VER="Visual Studio 15 2017" BUILD_TYPE=Release
+    - env: COMPILER=cl MSVC_VER="Visual Studio 15 2017 Win64" BUILD_TYPE=Release
       os: windows
 
 install:

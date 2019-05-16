@@ -35,9 +35,6 @@ public:
 			entity.getComponent<BasicComponent>().value += 1;
 		}
 	}
-
-private:
-	std::size_t m_it{ 0 };
 };
 
 class MissingSystem : public System
