@@ -4,7 +4,7 @@ file(GLOB TEST_SOURCES "Test-*.cpp")
 
 foreach (TEST_SRC ${TEST_SOURCES})
     # Test Source File and Name
-    get_filename_component(TEST_NAME ${TEST_SRC} NAME_WLE)
+    get_filename_component(TEST_NAME ${TEST_SRC} NAME_WE)
     string(TOLOWER ${TEST_NAME} EXE_NAME)
     
     # Test Target
