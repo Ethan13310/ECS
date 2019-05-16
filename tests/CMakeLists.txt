@@ -20,7 +20,7 @@ foreach (TEST_SRC ${TEST_SOURCES})
 	if (MSVC)
 		target_compile_options(${EXE_NAME} PRIVATE "/IGNORE:4389")
 	else()
-		target_compile_options(${EXE_NAME} PRIVATE "-Wno-missing-braces -Wno-sign-compare")
+		target_compile_options(${EXE_NAME} PRIVATE "-Wno-missing-braces" "-Wno-sign-compare")
 	endif()
     
     # Test Command
