@@ -9,15 +9,26 @@ An open-source **[Entity Component System](https://en.wikipedia.org/wiki/Entity%
 
 - A compiler that supports C++17 :
   - [GNU C++ Compiler](https://gcc.gnu.org/) >= 7.1
-  - [Microsoft Visual C++](https://visualstudio.microsoft.com/) >= 15.0 (2017)
+  - [Microsoft Visual C++](https://visualstudio.microsoft.com/) >= 14.0 (Visual Studio 2015)
   - [Clang++](https://clang.llvm.org/) >= 5.0
-- [CMake](https://cmake.org/) >= 3.9
+  - macOS >= 10.14 with XCode >= 10.2
+- [CMake](https://cmake.org/) >= 3.8
 
 ## Installation
 
 ```bash
-cmake .
-make install
+mkdir build && build
+cmake ..
+cmake --build . --target install --config Release
+```
+
+## Run Unit Tests
+
+```bash
+mkdir build && build
+cmake .. -DWITH_UNIT_TESTS=1
+cmake --build . --config Release
+ctest -C Release
 ```
 
 ## How to Use
