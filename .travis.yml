@@ -155,7 +155,7 @@ before_script:
 script:
   - |
     if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
-      cmake .. -G "Visual Studio ${MSVC_ID} ${MSVC_VER}" -T host=x64 -DWITH_UNIT_TESTS=1
+      cmake .. -DWITH_UNIT_TESTS=1 -G "Visual Studio ${MSVC_ID} ${MSVC_VER}" -T host=x64
     else
       cmake .. -DWITH_UNIT_TESTS=1
     fi

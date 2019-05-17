@@ -1,5 +1,6 @@
 # ECS Library
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![Build Status](https://travis-ci.com/Ethan13310/ECS.svg?branch=master)](https://travis-ci.com/Ethan13310/ECS)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Build Status](https://travis-ci.com/Ethan13310/ECS.svg?branch=master)](https://travis-ci.com/Ethan13310/ECS)
 
 An open-source **[Entity Component System](https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system)** library written in C++17.
 
@@ -117,10 +118,10 @@ entity.getId();
 // Get the Entity name
 entity.getName(); // or world.getEntityName(entity);
 
-// Check whether the Entity is enabled or not
+// Check whether the Entity is enabled
 entity.isEnabled(); // or world.isEntityEnabled(entity);
 
-// Check whether the Entity is valid or not
+// Check whether the Entity is valid
 entity.isValid(); // or world.isEntityValid(entity);
 
 // Compare two Entities
@@ -213,7 +214,7 @@ world.removeSystem<HealthSystem>();
 // Remove every Systems
 world.removeAllSystems();
 
-// Check whether a System exists or not
+// Check whether a System exists
 if (world.hasSystem<HealthSystem>()) {
     // The System exists ...
 }
@@ -261,13 +262,13 @@ getFilter().ignore<MyComponent>();
 
 Systems are also subject to various events. You can overload the functions of the events you want your System to handle.
 
-Here's the list of the events that a System can handle :
+Here's the list of the events a System can handle :
 
 ```cpp
 // Fired after the System has been instantiated
 virtual void onStart();
 
-// Fired before the System is destroyed.
+// Fired before the System is destroyed
 virtual void onShutdown();
 
 // Fired each frame, before onUpdate()
