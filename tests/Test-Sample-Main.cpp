@@ -7,19 +7,17 @@
 #include <ECS.hpp>
 #include <lest/lest.hpp>
 
-using namespace ecs;
-
-struct BasicComponent : public Component
+struct BasicComponent : public ecs::Component
 {
 	BasicComponent(int val = 0) : value{ val } {}
 
 	int value;
 };
 
-struct MissingComponent : public Component
+struct MissingComponent : public ecs::Component
 {};
 
-class BasicSystem : public System
+class BasicSystem : public ecs::System
 {
 public:
 	BasicSystem()
@@ -37,7 +35,7 @@ public:
 	}
 };
 
-class MissingSystem : public System
+class MissingSystem : public ecs::System
 {
 public:
 	MissingSystem() = default;
@@ -47,14 +45,14 @@ lest::test const specification[] =
 {
 	CASE("Basic ECS usage")
 	{
-		World world;
+		ecs::World world;
 
 		world.addSystem<BasicSystem>(0);
 
 		EXPECT(world.hasSystem<BasicSystem>());
 		EXPECT_NOT(world.hasSystem<MissingSystem>());
 
-		std::vector<Entity> entities{
+		std::vector<ecs::Entity> entities{
 			world.createEntity(),
 			world.createEntity()
 		};

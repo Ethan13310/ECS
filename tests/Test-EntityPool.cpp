@@ -4,14 +4,11 @@
 #include <ECS.hpp>
 #include <lest/lest.hpp>
 
-using namespace ecs;
-using namespace detail;
-
 lest::test const specification[] =
 {
 	CASE("Increment Entity IDs")
 	{
-		EntityPool pool;
+		ecs::detail::EntityPool pool;
 
 		EXPECT(pool.create() == 0); // First ID starts at 0
 		EXPECT(pool.create() == 1);
@@ -22,7 +19,7 @@ lest::test const specification[] =
 
 	CASE("Get stored IDs first")
 	{
-		EntityPool pool;
+		ecs::detail::EntityPool pool;
 
 		pool.create(); // 0
 		pool.create(); // 1
@@ -41,7 +38,7 @@ lest::test const specification[] =
 
 	CASE("Pool reset")
 	{
-		EntityPool pool;
+		ecs::detail::EntityPool pool;
 
 		pool.create();
 		pool.create();
@@ -50,6 +47,15 @@ lest::test const specification[] =
 		pool.store(0);
 		pool.store(1);
 		pool.store(2);
+
+		pool.reset();
+
+		EXPECT(pool.create() == 0);
+
+		pool.create();
+		pool.create();
+		pool.create();
+		pool.create();
 
 		pool.reset();
 

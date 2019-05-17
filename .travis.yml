@@ -160,4 +160,4 @@ script:
       cmake .. -DWITH_UNIT_TESTS=1
     fi
   - cmake --build . --config ${BUILD_TYPE}
-  - ctest -C ${BUILD_TYPE}
+  - ctest -V -C ${BUILD_TYPE}

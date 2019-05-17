@@ -4,20 +4,17 @@
 #include <ECS.hpp>
 #include <lest/lest.hpp>
 
-using namespace ecs;
-using namespace detail;
-
-struct MyEvent : public Event
+struct MyEvent : public ecs::Event
 {
 	int value{ 10 };
 };
 
-struct OtherEvent : public Event
+struct OtherEvent : public ecs::Event
 {
 	char letter{ 'A' };
 };
 
-struct UnusedEvent : public Event
+struct UnusedEvent : public ecs::Event
 {
 	bool status{ true };
 };
@@ -33,55 +30,88 @@ lest::test const specification[] =
 {
 	CASE("Event Dispacher")
 	{
-		LastCall lastCall{ LastCall::Unknown };
+		// The last Event that has been emitted
+		auto lastCall{ LastCall::Unknown };
 
+		// Number of times an event handler has been called
+		std::size_t callCount{ 0 };
+
+		// Reset current state between two events
+		auto reset = [&]() {
+			lastCall = LastCall::Unknown;
+			callCount = 0;
+		};
+
+		// 'MyEvent' handler
 		auto receiveMyEvent = [&](MyEvent const &evt) {
 			EXPECT(evt.value == 10);
 			lastCall = LastCall::MyEvent;
+			++callCount;
 		};
 
+		// 'OtherEvent' handler
 		auto receiveOtherEvent = [&](OtherEvent const &evt) {
 			EXPECT(evt.letter == 'A');
 			lastCall = LastCall::OtherEvent;
+			++callCount;
 		};
 
-		EventDispatcher evt;
+		ecs::EventDispatcher evt;
 
-		evt.connect<MyEvent>(receiveMyEvent);
+		// Single handler
+		auto const myEventId{ evt.connect<MyEvent>(receiveMyEvent) };
+
+		// Multiple handlers
 		evt.connect<OtherEvent>(receiveOtherEvent);
 		evt.connect<OtherEvent>(receiveOtherEvent);
 
 		evt.emit<OtherEvent>();
 		EXPECT(lastCall == LastCall::OtherEvent);
+		EXPECT(callCount == 2);
 
-		lastCall = LastCall::Unknown;
+		reset();
 		evt.emit<MyEvent>();
 		EXPECT(lastCall == LastCall::MyEvent);
+		EXPECT(callCount == 1);
 
-		lastCall = LastCall::Unknown;
+		reset();
 		evt.emit<MyEvent>();
 		EXPECT(lastCall == LastCall::MyEvent);
+		EXPECT(callCount == 1);
 
-		lastCall = LastCall::Unknown;
+		reset();
 		evt.emit<OtherEvent>();
 		EXPECT(lastCall == LastCall::OtherEvent);
+		EXPECT(callCount == 2);
 
-		lastCall = LastCall::Unknown;
+		reset();
 		evt.emit<MyEvent>();
 		EXPECT(lastCall == LastCall::MyEvent);
+		EXPECT(callCount == 1);
 
-		lastCall = LastCall::Unknown;
+		reset();
 		evt.emit<UnusedEvent>();
 		EXPECT(lastCall == LastCall::Unknown);
+		EXPECT(callCount == 0);
 
-		lastCall = LastCall::Unknown;
+		reset();
+		// No more hanlder for 'OtherEvent'
 		evt.clear<OtherEvent>();
 		evt.emit<OtherEvent>();
 		EXPECT(lastCall == LastCall::Unknown);
+		EXPECT(callCount == 0);
 
-		lastCall = LastCall::Unknown;
+		reset();
 		evt.emit<MyEvent>();
 		EXPECT(lastCall == LastCall::MyEvent);
+		EXPECT(callCount == 1);
+
+		reset();
+		// No more handler for 'MyEvent'
+		evt.clear(myEventId);
+		evt.emit<MyEvent>();
+		EXPECT(lastCall == LastCall::Unknown);
+		EXPECT(callCount == 0);
 	}
 };
 

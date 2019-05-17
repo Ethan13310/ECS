@@ -4,9 +4,6 @@
 #include <ECS.hpp>
 #include <lest/lest.hpp>
 
-using namespace ecs;
-using namespace detail;
-
 class Base {};
 class Type {};
 
@@ -19,32 +16,32 @@ lest::test const specification[] =
 	CASE("Increment Type IDs")
 	{
 		// New types
-		EXPECT(TypeInfo<Base>::getTypeId<Base>() == 0);
-		EXPECT(TypeInfo<Type>::getTypeId<Type>() == 0);
-		EXPECT(TypeInfo<Base>::getTypeId<A>() == 1);
-		EXPECT(TypeInfo<Base>::getTypeId<B>() == 2);
-		EXPECT(TypeInfo<Base>::getTypeId<C>() == 3);
-		EXPECT(TypeInfo<Type>::getTypeId<A>() == 1);
-		EXPECT(TypeInfo<Type>::getTypeId<B>() == 2);
-		EXPECT(TypeInfo<Type>::getTypeId<C>() == 3);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<Base>() == 0);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<Type>() == 0);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<A>() == 1);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<B>() == 2);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<C>() == 3);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<A>() == 1);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<B>() == 2);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<C>() == 3);
 
 		// Known types
-		EXPECT(TypeInfo<Base>::getTypeId<Base>() == 0);
-		EXPECT(TypeInfo<Type>::getTypeId<Type>() == 0);
-		EXPECT(TypeInfo<Type>::getTypeId<Type>() == 0);
-		EXPECT(TypeInfo<Base>::getTypeId<Base>() == 0);
-		EXPECT(TypeInfo<Base>::getTypeId<C>() == 3);
-		EXPECT(TypeInfo<Base>::getTypeId<A>() == 1);
-		EXPECT(TypeInfo<Type>::getTypeId<B>() == 2);
-		EXPECT(TypeInfo<Base>::getTypeId<A>() == 1);
-		EXPECT(TypeInfo<Base>::getTypeId<B>() == 2);
-		EXPECT(TypeInfo<Type>::getTypeId<A>() == 1);
-		EXPECT(TypeInfo<Type>::getTypeId<C>() == 3);
-		EXPECT(TypeInfo<Base>::getTypeId<B>() == 2);
-		EXPECT(TypeInfo<Type>::getTypeId<C>() == 3);
-		EXPECT(TypeInfo<Base>::getTypeId<C>() == 3);
-		EXPECT(TypeInfo<Type>::getTypeId<B>() == 2);
-		EXPECT(TypeInfo<Type>::getTypeId<A>() == 1);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<Base>() == 0);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<Type>() == 0);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<Type>() == 0);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<Base>() == 0);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<C>() == 3);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<A>() == 1);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<B>() == 2);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<A>() == 1);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<B>() == 2);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<A>() == 1);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<C>() == 3);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<B>() == 2);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<C>() == 3);
+		EXPECT(ecs::detail::TypeInfo<Base>::getTypeId<C>() == 3);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<B>() == 2);
+		EXPECT(ecs::detail::TypeInfo<Type>::getTypeId<A>() == 1);
 	}
 };
 

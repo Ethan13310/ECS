@@ -6,9 +6,6 @@
 #include <ECS.hpp>
 #include <lest/lest.hpp>
 
-using namespace ecs;
-using namespace detail;
-
 int square(int x)
 {
 	return x * x;
@@ -28,7 +25,7 @@ lest::test const specification[] =
 	CASE("Simple reference")
 	{
 		int x{ 5 };
-		ReferenceWrapper<int> y{ x };
+		ecs::detail::ReferenceWrapper<int> y{ x };
 
 		y.get() = 10;
 
@@ -39,7 +36,7 @@ lest::test const specification[] =
 
 	CASE("Function reference")
 	{
-		ReferenceWrapper<int(int)> funcRef{ std::ref(square) };
+		ecs::detail::ReferenceWrapper<int(int)> funcRef{ std::ref(square) };
 
 		EXPECT(funcRef(8) == square(8));
 	},
@@ -47,8 +44,8 @@ lest::test const specification[] =
 	CASE("Moving reference")
 	{
 		int x{ 2 };
-		ReferenceWrapper<int> y{ x };
-		ReferenceWrapper<int> z{ std::move(y) };
+		ecs::detail::ReferenceWrapper<int> y{ x };
+		ecs::detail::ReferenceWrapper<int> z{ std::move(y) };
 
 		z.get() = 42;
 
@@ -60,7 +57,7 @@ lest::test const specification[] =
 	CASE("Operator ->")
 	{
 		Foo foo;
-		ReferenceWrapper<Foo> refFoo{ foo };
+		ecs::detail::ReferenceWrapper<Foo> refFoo{ foo };
 
 		EXPECT(refFoo->multiplty(5, 5) == foo.multiplty(5, 5));
 		EXPECT(refFoo->multiplty(5, 5) == refFoo.get().multiplty(5, 5));
