@@ -10,7 +10,7 @@
 
 #include <ECS/Component.hpp>
 #include <ECS/Detail/ComponentFilter.hpp>
-#include <ECS/Detail/ReferenceWrapper.hpp>
+#include <ECS/Detail/Reference.hpp>
 #include <ECS/Detail/TypeInfo.hpp>
 #include <ECS/Entity.hpp>
 
@@ -58,7 +58,7 @@ namespace ecs::detail
 
 	private:
 		template <class T>
-		std::optional<ReferenceWrapper<std::unique_ptr<Component>>> getComponentPtr(Entity::Id id);
+		OptionalReference<std::unique_ptr<Component>> getComponentPtr(Entity::Id id);
 
 		// The index of this array matches the Component type ID
 		using ComponentArray = std::array<std::unique_ptr<Component>, MAX_COMPONENTS>;

@@ -8,7 +8,7 @@
 #include <vector>
 
 #include <ECS/Detail/ComponentFilter.hpp>
-#include <ECS/Detail/ReferenceWrapper.hpp>
+#include <ECS/Detail/Reference.hpp>
 #include <ECS/Detail/TypeInfo.hpp>
 #include <ECS/Entity.hpp>
 #include <ECS/Event.hpp>
@@ -166,7 +166,7 @@ namespace ecs
 		std::unordered_map<Entity::Id, EntityStatus> m_status;
 
 		// The World that this System belongs to
-		std::optional<detail::ReferenceWrapper<World>> m_world;
+		detail::OptionalReference<World> m_world;
 
 		// The mask that the Entities must matched to be
 		// attached to this System

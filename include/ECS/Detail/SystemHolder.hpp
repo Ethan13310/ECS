@@ -8,7 +8,7 @@
 #include <map>
 #include <unordered_map>
 
-#include <ECS/Detail/ReferenceWrapper.hpp>
+#include <ECS/Detail/Reference.hpp>
 #include <ECS/Detail/TypeInfo.hpp>
 #include <ECS/System.hpp>
 

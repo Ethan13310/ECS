@@ -25,7 +25,7 @@ lest::test const specification[] =
 	CASE("Simple reference")
 	{
 		int x{ 5 };
-		ecs::detail::ReferenceWrapper<int> y{ x };
+		ecs::detail::Reference<int> y{ x };
 
 		y.get() = 10;
 
@@ -36,7 +36,7 @@ lest::test const specification[] =
 
 	CASE("Function reference")
 	{
-		ecs::detail::ReferenceWrapper<int(int)> funcRef{ std::ref(square) };
+		ecs::detail::Reference<int(int)> funcRef{ std::ref(square) };
 
 		EXPECT(funcRef(8) == square(8));
 	},
@@ -44,8 +44,8 @@ lest::test const specification[] =
 	CASE("Moving reference")
 	{
 		int x{ 2 };
-		ecs::detail::ReferenceWrapper<int> y{ x };
-		ecs::detail::ReferenceWrapper<int> z{ std::move(y) };
+		ecs::detail::Reference<int> y{ x };
+		ecs::detail::Reference<int> z{ std::move(y) };
 
 		z.get() = 42;
 
@@ -57,7 +57,7 @@ lest::test const specification[] =
 	CASE("Operator ->")
 	{
 		Foo foo;
-		ecs::detail::ReferenceWrapper<Foo> refFoo{ foo };
+		ecs::detail::Reference<Foo> refFoo{ foo };
 
 		EXPECT(refFoo->multiplty(5, 5) == foo.multiplty(5, 5));
 		EXPECT(refFoo->multiplty(5, 5) == refFoo.get().multiplty(5, 5));

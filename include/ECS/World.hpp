@@ -12,7 +12,7 @@
 #include <ECS/Detail/ComponentFilter.hpp>
 #include <ECS/Detail/ComponentHolder.hpp>
 #include <ECS/Detail/EntityPool.hpp>
-#include <ECS/Detail/ReferenceWrapper.hpp>
+#include <ECS/Detail/Reference.hpp>
 #include <ECS/Detail/SystemHolder.hpp>
 #include <ECS/Detail/TypeInfo.hpp>
 #include <ECS/Entity.hpp>
@@ -190,7 +190,7 @@ namespace ecs
 		detail::SystemHolder m_systems;
 
 		// List of all System waiting to be started
-		std::vector<detail::ReferenceWrapper<System>> m_newSystems;
+		std::vector<detail::Reference<System>> m_newSystems;
 
 		// ID Pool
 		detail::EntityPool m_pool;

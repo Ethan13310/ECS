@@ -66,7 +66,7 @@ void ecs::detail::ComponentHolder::removeComponent(Entity::Id id)
 }
 
 template <class T>
-std::optional<ecs::detail::ReferenceWrapper<std::unique_ptr<ecs::Component>>> ecs::detail::ComponentHolder::getComponentPtr(Entity::Id id)
+ecs::detail::OptionalReference<std::unique_ptr<ecs::Component>> ecs::detail::ComponentHolder::getComponentPtr(Entity::Id id)
 {
 	if (!hasComponent<T>(id)) {
 		return std::nullopt;

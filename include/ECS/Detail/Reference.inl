@@ -7,37 +7,37 @@
 #include <utility>
 
 template <class T>
-ecs::detail::ReferenceWrapper<T>::ReferenceWrapper(T &reference) noexcept :
+ecs::detail::Reference<T>::Reference(T &reference) noexcept :
 	m_reference{ std::addressof(reference) }
 {}
 
 template <class T>
-T *ecs::detail::ReferenceWrapper<T>::operator->() const noexcept
+T *ecs::detail::Reference<T>::operator->() const noexcept
 {
 	return m_reference;
 }
 
 template <class T>
-T *ecs::detail::ReferenceWrapper<T>::operator&() const noexcept
+T *ecs::detail::Reference<T>::operator&() const noexcept
 {
 	return m_reference;
 }
 
 template <class T>
-ecs::detail::ReferenceWrapper<T>::operator T&() const noexcept
+ecs::detail::Reference<T>::operator T&() const noexcept
 {
 	return *m_reference;
 }
 
 template <class T>
-T &ecs::detail::ReferenceWrapper<T>::get() const noexcept
+T &ecs::detail::Reference<T>::get() const noexcept
 {
 	return *m_reference;
 }
 
 template <class T>
 template <class... Args>
-std::invoke_result_t<T&, Args...> ecs::detail::ReferenceWrapper<T>::operator()(Args &&...args) const
+std::invoke_result_t<T&, Args...> ecs::detail::Reference<T>::operator()(Args &&...args) const
 {
 	return std::invoke(get(), std::forward<Args>(args)...);
 }

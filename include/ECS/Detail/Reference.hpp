@@ -4,23 +4,24 @@
 #pragma once
 
 #include <functional>
+#include <optional>
 
 namespace ecs::detail
 {
 	template <class T>
-	class ReferenceWrapper
+	class Reference
 	{
 	public:
 		using Type = T;
 
-		ReferenceWrapper(T &reference) noexcept;
-		~ReferenceWrapper() = default;
+		Reference(T &reference) noexcept;
+		~Reference() = default;
 
-		ReferenceWrapper(ReferenceWrapper const &) noexcept = default;
-		ReferenceWrapper(ReferenceWrapper &&) noexcept = default;
+		Reference(Reference const &) noexcept = default;
+		Reference(Reference &&) noexcept = default;
 
-		ReferenceWrapper &operator=(ReferenceWrapper const &) noexcept = default;
-		ReferenceWrapper &operator=(ReferenceWrapper &&) noexcept = default;
+		Reference &operator=(Reference const &) noexcept = default;
+		Reference &operator=(Reference &&) noexcept = default;
 
 		// Call the function of the stored reference
 		T *operator->() const noexcept;
@@ -42,6 +43,9 @@ namespace ecs::detail
 		// Address of the referenced object
 		T *m_reference{ nullptr };
 	};
+
+	template <class T>
+	using OptionalReference = std::optional<Reference<T>>;
 }
 
-#include <ECS/Detail/ReferenceWrapper.inl>
+#include <ECS/Detail/Reference.inl>

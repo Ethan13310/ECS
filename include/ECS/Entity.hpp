@@ -6,7 +6,7 @@
 #include <optional>
 
 #include <ECS/Component.hpp>
-#include <ECS/Detail/ReferenceWrapper.hpp>
+#include <ECS/Detail/Reference.hpp>
 
 namespace ecs
 {
@@ -91,6 +91,6 @@ namespace ecs
 		Id m_id{ 0 };
 
 		// The World that this Entity belongs to
-		std::optional<detail::ReferenceWrapper<World>> m_world;
+		detail::OptionalReference<World> m_world;
 	};
 }
