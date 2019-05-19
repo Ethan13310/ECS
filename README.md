@@ -271,9 +271,6 @@ virtual void onStart();
 // Fired before the System is destroyed
 virtual void onShutdown();
 
-// Fired each frame, before onUpdate()
-virtual void onPreUpdate(float elapsed);
-
 // Fired each frame
 virtual void onUpdate(float elapsed);
 

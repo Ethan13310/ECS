@@ -57,9 +57,6 @@ namespace ecs
 		// Triggered on System shut down
 		virtual void onShutdown();
 
-		// Triggered before each refresh
-		virtual void onPreUpdate(float elapsed);
-
 		// Triggered for each refresh
 		virtual void onUpdate(float elapsed);
 
@@ -128,9 +125,6 @@ namespace ecs
 
 		// Shutdown event
 		void shutdownEvent();
-
-		// Pre-update event
-		void preUpdateEvent(float elapsed);
 
 		// Update event
 		void updateEvent(float elapsed);

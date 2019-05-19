@@ -153,10 +153,6 @@ void ecs::World::update(float elapsed)
 	m_newSystems.clear();
 
 	updateSystems([elapsed](System &system, detail::TypeId) {
-		system.preUpdateEvent(elapsed);
-	});
-
-	updateSystems([elapsed](System &system, detail::TypeId) {
 		system.updateEvent(elapsed);
 	});
 

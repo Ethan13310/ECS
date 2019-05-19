@@ -102,11 +102,6 @@ void ecs::System::shutdownEvent()
 	callEvent(std::bind(&System::onShutdown, this));
 }
 
-void ecs::System::preUpdateEvent(float elapsed)
-{
-	callEvent(std::bind(&System::onPreUpdate, this, elapsed));
-}
-
 void ecs::System::updateEvent(float elapsed)
 {
 	callEvent(std::bind(&System::onUpdate, this, elapsed));
@@ -169,9 +164,6 @@ void ecs::System::onStart()
 {}
 
 void ecs::System::onShutdown()
-{}
-
-void ecs::System::onPreUpdate(float)
 {}
 
 void ecs::System::onUpdate(float)
