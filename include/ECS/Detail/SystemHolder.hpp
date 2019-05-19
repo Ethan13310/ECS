@@ -38,7 +38,7 @@ namespace ecs::detail
 		template <class T>
 		T const &getSystem() const;
 
-		// Check whether a System exists or not
+		// Check whether a System exists
 		template <class T>
 		bool hasSystem() const;
 

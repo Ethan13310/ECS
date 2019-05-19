@@ -36,7 +36,7 @@ namespace ecs::detail
 		template <class T>
 		T &getComponent(Entity::Id id);
 
-		// Check whether the Entity has the Component T or not
+		// Check whether the Entity has the Component T
 		template <class T>
 		bool hasComponent(Entity::Id id) const;
 

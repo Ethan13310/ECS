@@ -45,7 +45,7 @@ namespace ecs
 		template <class T>
 		T const &getSystem() const;
 
-		// Check whether a System exists or not
+		// Check whether a System exists
 		template <class T>
 		bool hasSystem() const;
 
@@ -77,7 +77,7 @@ namespace ecs
 		// Disable the Entity
 		void disableEntity(Entity::Id id);
 
-		// Check whether the Entity is enabled or not
+		// Check whether the Entity is enabled
 		bool isEntityEnabled(Entity::Id id) const;
 
 		// Remove the Entity
@@ -86,7 +86,7 @@ namespace ecs
 		// Remove all Entities
 		void removeAllEntities();
 
-		// Check whether an Entity is valid or not
+		// Check whether an Entity is valid
 		bool isEntityValid(Entity::Id id) const;
 
 		// Update the World
@@ -131,7 +131,7 @@ namespace ecs
 			Action action;
 		};
 
-		enum AttachStatus
+		enum class AttachStatus
 		{
 			Attached,
 			AlreadyAttached,

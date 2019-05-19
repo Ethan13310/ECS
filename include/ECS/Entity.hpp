@@ -54,7 +54,7 @@ namespace ecs
 		template <class T>
 		T const &getComponent() const;
 
-		// Check whether the Entity has the Component T or not
+		// Check whether the Entity has the Component T
 		template <class T>
 		bool hasComponent() const;
 
@@ -71,10 +71,10 @@ namespace ecs
 		// Disable the Entity
 		void disable();
 
-		// Check whether the Entity is enabled or not
+		// Check whether the Entity is enabled
 		bool isEnabled() const;
 
-		// Check whether the Entity is valid or not
+		// Check whether the Entity is valid
 		bool isValid() const;
 
 		// Get Entity name
