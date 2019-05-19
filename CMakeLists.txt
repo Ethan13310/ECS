@@ -9,14 +9,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# --- Compilers Options
-
-if (MSVC)
-    add_compile_options("/W4" "/MP")
-else()
-    add_compile_options("-Wall" "-Wextra")
-endif()
-
 # --- Include Directories
 
 include_directories("include")
@@ -26,6 +18,22 @@ include_directories("include")
 file(GLOB_RECURSE ECS_SOURCES "src/*.cpp")
 
 add_library(ECS STATIC ${ECS_SOURCES})
+
+# --- Compiler Options
+
+if (MSVC)
+    add_compile_options("/W4" "/MP")
+    
+    if (DEFINED ENV{TRAVIS})
+        target_compile_options(ECS PRIVATE "/WX")
+    endif()
+else()
+    add_compile_options("-Wall" "-Wextra")
+    
+    if (DEFINED ENV{TRAVIS})
+        target_compile_options(ECS PRIVATE "-Werror")
+    endif()
+endif()
 
 # --- Install Directories
 
