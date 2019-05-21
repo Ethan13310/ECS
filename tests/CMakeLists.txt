@@ -25,4 +25,6 @@ foreach (TEST_SRC ${TEST_SOURCES})
 
     # Test Command
     add_test(NAME ${TEST_NAME} COMMAND ${EXE_NAME} "-p")
+    
+    message(STATUS "Add Unit Test: ${TEST_NAME}")
 endforeach()

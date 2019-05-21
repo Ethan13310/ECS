@@ -4,12 +4,12 @@
 #include <ECS.hpp>
 #include <lest/lest.hpp>
 
-struct A : ecs::Component {};
-struct B : ecs::Component {};
-struct C : ecs::Component {};
-struct D : ecs::Component {};
-struct E : ecs::Component {};
-struct F : ecs::Component {};
+struct A : public ecs::Component {};
+struct B : public ecs::Component {};
+struct C : public ecs::Component {};
+struct D : public ecs::Component {};
+struct E : public ecs::Component {};
+struct F : public ecs::Component {};
 
 lest::test const specification[] =
 {
