@@ -141,17 +141,17 @@ matrix:
     #########################
 
     # MinGW 7.3.0
-    - env: COMPILER=mingw MINGW_VER="7.3.0" BUILD_TYPE=Debug
+    - env: COMPILER=g++ MINGW_VER="7.3.0" BUILD_TYPE=Debug
       os: windows
 
-    - env: COMPILER=mingw MINGW_VER="7.3.0" BUILD_TYPE=Release
+    - env: COMPILER=g++ MINGW_VER="7.3.0" BUILD_TYPE=Release
       os: windows
 
     # MinGW 8.1.0
-    - env: COMPILER=mingw MINGW_VER="8.1.0" BUILD_TYPE=Debug
+    - env: COMPILER=g++ MINGW_VER="8.1.0" BUILD_TYPE=Debug
       os: windows
 
-    - env: COMPILER=mingw MINGW_VER="8.1.0" BUILD_TYPE=Release
+    - env: COMPILER=g++ MINGW_VER="8.1.0" BUILD_TYPE=Release
       os: windows
 
 install:
@@ -164,7 +164,7 @@ install:
           choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
         fi
       elif [ ! -z "${MINGW_VER}" ]; then
-        choco install -y mingw --version ${MINGW_VER}
+        choco install -y --allow-downgrade mingw --version ${MINGW_VER}
       fi
       choco upgrade cmake.install
     fi
@@ -177,8 +177,8 @@ before_script:
 script:
   - |
     if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
-      if [ "${COMPILER}" = "mingw" ]; then
-        cmake .. -DWITH_UNIT_TESTS=1 -G "MinGW Makefiles"
+      if [ "${COMPILER}" = "g++" ]; then
+        cmake .. -DWITH_UNIT_TESTS=1 -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND"
       else
         cmake .. -DWITH_UNIT_TESTS=1 -G "Visual Studio ${MSVC_ID} ${MSVC_VER}" -T host=x64
       fi
