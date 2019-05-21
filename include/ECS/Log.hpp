@@ -31,47 +31,27 @@ namespace ecs
 		// Enable or disable date time
 		static void enableDateTime(bool enable = true);
 
-	private:
-		class Impl;
-
-		// Get Log class instance
-		static Impl &get();
-
-		// Log class instance
-		static std::optional<Impl> m_log;
-	};
-
-	class Log::Impl
-	{
-	public:
-		Impl();
-		~Impl() = default;
-
-		Impl(Impl const &) = delete;
-		Impl(Impl &&) noexcept = default;
-
-		Impl &operator=(Impl const &) = delete;
-		Impl &operator=(Impl &&) noexcept = default;
-
-		// Print info message
-		void info(std::string const &message) const;
-
-		// Print success message
-		void success(std::string const &message) const;
-
-		// Print warning message
-		void warning(std::string const &message) const;
-
-		// Print error message
-		void error(std::string const &message) const;
-
-		// Enable or disable colors
-		void enableColors(bool enable = true);
-
-		// Enable or disable date time
-		void enableDateTime(bool enable = true);
+		// Check whether colors are enabled
+		static bool colorsEnabled() noexcept;
 
 	private:
+		class ColorsInitializer
+		{
+		public:
+			ColorsInitializer() noexcept;
+			~ColorsInitializer() = default;
+
+			// Determine if colors can be outputted to the console
+			bool available() const noexcept;
+
+		private:
+			// Configure colors for Windows 10 console
+			bool initWindowsConsole() const noexcept;
+
+			// Are colors available
+			bool m_colorsAvailable{ false };
+		};
+
 		enum class Color
 		{
 			Default,
@@ -89,39 +69,33 @@ namespace ecs
 		};
 
 		// Log a message
-		void log(std::string const &header, Color headerColor, std::string const &message) const;
+		static void log(std::string const& header, Color headerColor, std::string const& message);
 
 		// Print message header to stdout
-		void printHeader(std::string const &str, Color color) const;
+		static void printHeader(std::string const& str, Color color);
 
 		// Print text to stdout followed by a new line
-		void printLine(std::string const &str) const;
+		static void printLine(std::string const& str);
 
 		// Print text to stdout
-		void print(std::string const &str) const;
+		static void print(std::string const& str);
 
 		// Change console text style
-		void format(Style style) const;
+		static void format(Style style);
 
 		// Change console text color
-		void format(Color color) const;
+		static void format(Color color);
 
 		// Get current date
-		std::string getDate() const;
-
-		// Configure colors for Windows 10 console
-		bool initWindowsConsole();
+		static std::string getDate();
 
 		// Are the colors enabled
-		bool m_enableColors{ true };
+		static inline bool m_enableColors{ true };
 
 		// Is the date enabled
-		bool m_enableDateTime{ true };
+		static inline bool m_enableDateTime{ true };
 
 		// Is the console configured
-		static bool m_isInit;
-
-		// Are the colors available
-		static bool m_colorsAvailable;
+		static inline ColorsInitializer m_colors{};
 	};
 }
