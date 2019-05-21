@@ -136,15 +136,37 @@ matrix:
     - env: COMPILER=cl MSVC_VER="2019" MSVC_ID=16 BUILD_TYPE=Release
       os: windows
 
+    #########################
+    #    MinGW on Windows   #
+    #########################
+
+    # MinGW 7.3.0
+    - env: COMPILER=mingw MINGW_VER="7.3.0" BUILD_TYPE=Debug
+      os: windows
+
+    - env: COMPILER=mingw MINGW_VER="7.3.0" BUILD_TYPE=Release
+      os: windows
+
+    # MinGW 8.1.0
+    - env: COMPILER=mingw MINGW_VER="8.1.0" BUILD_TYPE=Debug
+      os: windows
+
+    - env: COMPILER=mingw MINGW_VER="8.1.0" BUILD_TYPE=Release
+      os: windows
+
 install:
   - export CXX=${COMPILER}
-  # Visual Studio Build Tools installation on Windows
+  # Visual Studio Build Tools or MinGW installation on Windows
   - |
     if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
-      if [ "${MSVC_ID}" = "16" ]; then
-        choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
-        choco upgrade cmake.install
+      if [ ! -z "${MSVC_VER}" ]; then
+        if [ "${MSVC_ID}" = "16" ]; then
+          choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+        fi
+      elif [ ! -z "${MINGW_VER}" ]; then
+        choco install -y mingw --version ${MINGW_VER}
       fi
+      choco upgrade cmake.install
     fi
 
 before_script:
@@ -155,7 +177,11 @@ before_script:
 script:
   - |
     if [ "${TRAVIS_OS_NAME}" = "windows" ]; then
-      cmake .. -DWITH_UNIT_TESTS=1 -G "Visual Studio ${MSVC_ID} ${MSVC_VER}" -T host=x64
+      if [ "${COMPILER}" = "mingw" ]; then
+        cmake .. -DWITH_UNIT_TESTS=1 -G "MinGW Makefiles"
+      else
+        cmake .. -DWITH_UNIT_TESTS=1 -G "Visual Studio ${MSVC_ID} ${MSVC_VER}" -T host=x64
+      fi
     else
       cmake .. -DWITH_UNIT_TESTS=1
     fi
