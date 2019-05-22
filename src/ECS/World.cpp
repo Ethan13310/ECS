@@ -133,7 +133,7 @@ void ecs::World::removeAllEntities()
 	for (auto const &entity : m_entities) {
 		// We may iterate through invalid entities
 		if (entity.isValid) {
-			removeEntity(entity.entity.getId());
+			removeEntity(entity.entity);
 		}
 	}
 }
@@ -176,10 +176,10 @@ void ecs::World::clear()
 
 void ecs::World::updateEntities()
 {
-	// Here, we copy m_actions to make possible to create, enable, etc.
+	// Here, we move m_actions to another vector to make possible to create, enable, etc.
 	// Entities within event handlers like system::onEntityAttached, etc.
-	auto const actionsList{ m_actions };
-	m_actions.clear();
+	auto const actionsList{ std::move(m_actions) };
+	m_actions = decltype(m_actions){};
 
 	for (auto const &action : actionsList) {
 		try {

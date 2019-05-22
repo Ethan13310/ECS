@@ -30,7 +30,7 @@ namespace ecs::detail
 
 		// Add the component T to the Entity
 		template <class T>
-		void addComponent(Entity::Id id, std::unique_ptr<T> &&component);
+		T &addComponent(Entity::Id id, std::unique_ptr<T> &&component);
 
 		// Get the Component T from the Entity
 		template <class T>

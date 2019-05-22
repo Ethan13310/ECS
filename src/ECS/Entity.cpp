@@ -1,6 +1,8 @@
 // Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
 // Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
+#include <memory>
+
 #include <ECS/Entity.inl>
 #include <ECS/World.inl>
 
@@ -21,8 +23,9 @@ ecs::Entity::Id ecs::Entity::getId() const noexcept
 
 void ecs::Entity::removeAllComponents()
 {
-	m_world.value()->m_components.removeAllComponents(m_id);
 	m_world.value()->refreshEntity(m_id);
+	
+	m_world.value()->m_components.removeAllComponents(m_id);
 }
 
 void ecs::Entity::enable()

@@ -12,10 +12,9 @@
 template <class T, class... Args>
 T &ecs::Entity::addComponent(Args &&...args)
 {
-	m_world.value()->m_components.addComponent<T>(m_id, std::make_unique<T>(std::forward<Args>(args)...));
 	m_world.value()->refreshEntity(m_id);
 
-	return getComponent<T>();
+	return m_world.value()->m_components.addComponent<T>(m_id, std::make_unique<T>(std::forward<Args>(args)...));
 }
 
 template <class T>
@@ -39,6 +38,7 @@ bool ecs::Entity::hasComponent() const
 template <class T>
 void ecs::Entity::removeComponent()
 {
-	m_world.value()->m_components.removeComponent<T>(m_id);
 	m_world.value()->refreshEntity(m_id);
+
+	m_world.value()->m_components.removeComponent<T>(m_id);
 }
