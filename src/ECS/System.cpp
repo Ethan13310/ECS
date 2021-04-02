@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #include <algorithm>
 
@@ -16,13 +16,15 @@ ecs::System::~System()
 void ecs::System::detachAll()
 {
 	// Enabled Entities
-	for (auto &entity : m_enabledEntities) {
+	for (auto &entity : m_enabledEntities)
+	{
 		disableEvent(entity);
 		detachEvent(entity);
 	}
 
 	// Disabled Entities
-	for (auto &entity : m_disabledEntities) {
+	for (auto &entity : m_disabledEntities)
+	{
 		detachEvent(entity);
 	}
 
@@ -34,7 +36,8 @@ void ecs::System::detachAll()
 
 void ecs::System::attachEntity(Entity const &entity)
 {
-	if (getEntityStatus(entity) == EntityStatus::NotAttached) {
+	if (getEntityStatus(entity) == EntityStatus::NotAttached)
+	{
 		// Add Entity to the Disabled list
 		// The Entity is not enabled by default
 		m_disabledEntities.push_back(entity);
@@ -48,13 +51,16 @@ void ecs::System::detachEntity(Entity const &entity)
 {
 	auto const status{ getEntityStatus(entity) };
 
-	if (status != EntityStatus::NotAttached) {
-		if (status == EntityStatus::Enabled) {
+	if (status != EntityStatus::NotAttached)
+	{
+		if (status == EntityStatus::Enabled)
+		{
 			// Remove Entity from Enabled list
 			m_enabledEntities.erase(std::remove(m_enabledEntities.begin(), m_enabledEntities.end(), entity), m_enabledEntities.end());
 			disableEvent(entity);
 		}
-		else {
+		else
+		{
 			// Remove Entity from Disabled list
 			m_disabledEntities.erase(std::remove(m_disabledEntities.begin(), m_disabledEntities.end(), entity), m_disabledEntities.end());
 		}
@@ -66,7 +72,8 @@ void ecs::System::detachEntity(Entity const &entity)
 
 void ecs::System::enableEntity(Entity const &entity)
 {
-	if (getEntityStatus(entity) == EntityStatus::Disabled) {
+	if (getEntityStatus(entity) == EntityStatus::Disabled)
+	{
 		// Remove Entity from Disabled list
 		m_disabledEntities.erase(std::remove(m_disabledEntities.begin(), m_disabledEntities.end(), entity), m_disabledEntities.end());
 
@@ -80,7 +87,8 @@ void ecs::System::enableEntity(Entity const &entity)
 
 void ecs::System::disableEntity(Entity const &entity)
 {
-	if (getEntityStatus(entity) == EntityStatus::Enabled) {
+	if (getEntityStatus(entity) == EntityStatus::Enabled)
+	{
 		// Remove Entity from Enabled list
 		m_enabledEntities.erase(std::remove(m_enabledEntities.begin(), m_enabledEntities.end(), entity), m_enabledEntities.end());
 
@@ -144,7 +152,8 @@ std::size_t ecs::System::getEntityCount() const noexcept
 
 ecs::World &ecs::System::getWorld()
 {
-	if (!m_world.has_value()) {
+	if (!m_world.has_value())
+	{
 		throw Exception{ "System is not attached to any World.", "ecs::System::getWorld()" };
 	}
 
@@ -153,7 +162,8 @@ ecs::World &ecs::System::getWorld()
 
 ecs::World const &ecs::System::getWorld() const
 {
-	if (!m_world.has_value()) {
+	if (!m_world.has_value())
+	{
 		throw Exception{ "System is not attached to any World.", "ecs::System::getWorld()" };
 	}
 
@@ -191,7 +201,8 @@ ecs::detail::ComponentFilter &ecs::System::getFilter()
 
 void ecs::System::disconnectEvent(Event::Id id)
 {
-	if (m_events.find(id) != m_events.end()) {
+	if (m_events.find(id) != m_events.end())
+	{
 		getWorld().m_evtDispatcher.clear(id);
 		m_events.erase(id);
 	}
@@ -201,7 +212,8 @@ void ecs::System::disconnectAllEvents()
 {
 	auto &evtDispatcher{ getWorld().m_evtDispatcher };
 
-	for (auto id : m_events) {
+	for (auto id : m_events)
+	{
 		evtDispatcher.clear(id);
 	}
 
@@ -212,7 +224,8 @@ ecs::System::EntityStatus ecs::System::getEntityStatus(Entity::Id id) const
 {
 	auto const it{ m_status.find(id) };
 
-	if (it != m_status.end()) {
+	if (it != m_status.end())
+	{
 		return it->second;
 	}
 
@@ -221,10 +234,12 @@ ecs::System::EntityStatus ecs::System::getEntityStatus(Entity::Id id) const
 
 void ecs::System::setEntityStatus(Entity::Id id, EntityStatus status)
 {
-	if (status == EntityStatus::NotAttached) {
+	if (status == EntityStatus::NotAttached)
+	{
 		m_status.erase(id);
 	}
-	else {
+	else
+	{
 		m_status[id] = status;
 	}
 }

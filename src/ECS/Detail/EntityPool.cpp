@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #include <ECS/Detail/EntityPool.hpp>
 
@@ -7,11 +7,13 @@ ecs::Entity::Id ecs::detail::EntityPool::create()
 {
 	Entity::Id id{};
 
-	if (m_storedIds.empty()) {
+	if (m_storedIds.empty()) 
+	{
 		id = m_nextId;
 		++m_nextId;
 	}
-	else {
+	else 
+	{
 		id = m_storedIds.back();
 		m_storedIds.pop_back();
 	}
@@ -21,7 +23,8 @@ ecs::Entity::Id ecs::detail::EntityPool::create()
 
 void ecs::detail::EntityPool::store(Entity::Id id)
 {
-	if (id < m_nextId) {
+	if (id < m_nextId) 
+	{
 		// We cannot store an ID that haven't been generated before
 		m_storedIds.push_back(id);
 	}

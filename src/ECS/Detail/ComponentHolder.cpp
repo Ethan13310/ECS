@@ -1,21 +1,25 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #include <ECS/Detail/ComponentHolder.hpp>
 
 void ecs::detail::ComponentHolder::removeAllComponents(Entity::Id id)
 {
-	if (id < m_components.size()) {
-		for (auto &component : m_components[id]) {
+	if (id < m_components.size())
+	{
+		for (auto &component : m_components[id])
+		{
 			component.reset();
 		}
+		
 		m_componentsMasks[id].reset();
 	}
 }
 
 ecs::detail::ComponentFilter::Mask ecs::detail::ComponentHolder::getComponentsMask(Entity::Id id) const
 {
-	if (id < m_componentsMasks.size()) {
+	if (id < m_componentsMasks.size())
+	{
 		return m_componentsMasks[id];
 	}
 

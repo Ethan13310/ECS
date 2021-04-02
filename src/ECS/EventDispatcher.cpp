@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #include <ECS/EventDispatcher.hpp>
 
@@ -10,11 +10,14 @@ void ecs::EventDispatcher::clearAll()
 
 void ecs::EventDispatcher::clear(Event::Id id)
 {
-	for (auto it{ m_listeners.begin() }; it != m_listeners.end();) {
-		if (it->second.id == id) {
+	for (auto it{ m_listeners.begin() }; it != m_listeners.end();)
+	{
+		if (it->second.id == id) 
+		{
 			it = m_listeners.erase(it);
 		}
-		else {
+		else 
+		{
 			++it;
 		}
 	}

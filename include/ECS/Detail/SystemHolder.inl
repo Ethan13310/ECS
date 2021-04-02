@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #pragma once
 
@@ -29,7 +29,8 @@ T &ecs::detail::SystemHolder::getSystem()
 {
 	auto it{ m_systems.find(getSystemTypeId<T>()) };
 
-	if (it == m_systems.end() || it->second == nullptr) {
+	if (it == m_systems.end() || it->second == nullptr)
+	{
 		throw Exception{ "World does not have this System.", "ecs::World::getSystem()" };
 	}
 
@@ -41,7 +42,8 @@ T const &ecs::detail::SystemHolder::getSystem() const
 {
 	auto it{ m_systems.find(getSystemTypeId<T>()) };
 
-	if (it == m_systems.end() || it->second == nullptr) {
+	if (it == m_systems.end() || it->second == nullptr)
+	{
 		throw Exception{ "World does not have this System.", "ecs::World::getSystem()" };
 	}
 
@@ -63,7 +65,8 @@ void ecs::detail::SystemHolder::removeSystem()
 
 	auto system{ m_systems.find(typeId) };
 
-	if (system != m_systems.end() && system->second != nullptr) {
+	if (system != m_systems.end() && system->second != nullptr)
+	{
 		system->second->onShutdown();
 		system->second->detachAll();
 	}
@@ -78,14 +81,18 @@ void ecs::detail::SystemHolder::removeSystem()
 template <class Func>
 void ecs::detail::SystemHolder::forEach(Func &&func)
 {
-	for (auto const &typeId : m_priorities) {
+	for (auto const &typeId : m_priorities)
+	{
 		auto &system{ m_systems[typeId.second] };
 
-		if (system != nullptr) {
-			try {
+		if (system != nullptr)
+		{
+			try
+			{
 				func(*system, typeId.second);
 			}
-			catch (std::exception const &e) {
+			catch (std::exception const &e)
+			{
 				Log::error(e.what());
 			}
 		}

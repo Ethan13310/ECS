@@ -1,5 +1,5 @@
-// Copyright (c) 2018 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #include <ECS.hpp>
 #include <lest/lest.hpp>
@@ -28,7 +28,7 @@ enum class LastCall
 
 lest::test const specification[] =
 {
-	CASE("Event Dispacher")
+	CASE("Event Dispatcher")
 	{
 		// The last Event that has been emitted
 		auto lastCall{ LastCall::Unknown };
@@ -37,20 +37,23 @@ lest::test const specification[] =
 		std::size_t callCount{ 0 };
 
 		// Reset current state between two events
-		auto reset = [&]() {
+		auto reset = [&]()
+		{
 			lastCall = LastCall::Unknown;
 			callCount = 0;
 		};
 
 		// 'MyEvent' handler
-		auto receiveMyEvent = [&](MyEvent const &evt) {
+		auto receiveMyEvent = [&](MyEvent const &evt)
+		{
 			EXPECT(evt.value == 10);
 			lastCall = LastCall::MyEvent;
 			++callCount;
 		};
 
 		// 'OtherEvent' handler
-		auto receiveOtherEvent = [&](OtherEvent const &evt) {
+		auto receiveOtherEvent = [&](OtherEvent const &evt)
+		{
 			EXPECT(evt.letter == 'A');
 			lastCall = LastCall::OtherEvent;
 			++callCount;
@@ -95,7 +98,7 @@ lest::test const specification[] =
 		EXPECT(callCount == 0);
 
 		reset();
-		// No more hanlder for 'OtherEvent'
+		// No more handler for 'OtherEvent'
 		evt.clear<OtherEvent>();
 		evt.emit<OtherEvent>();
 		EXPECT(lastCall == LastCall::Unknown);

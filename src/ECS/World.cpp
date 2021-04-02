@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #include <stdexcept>
 
@@ -42,7 +42,8 @@ ecs::Entity ecs::World::createEntity()
 
 ecs::Entity ecs::World::createEntity(std::string const &name)
 {
-	if (m_names.find(name) != m_names.end()) {
+	if (m_names.find(name) != m_names.end())
+	{
 		throw Exception{ "Entity name already used.", "ecs::World::createEntity()" };
 	}
 
@@ -56,7 +57,8 @@ ecs::Entity ecs::World::createEntity(std::string const &name)
 
 std::optional<ecs::Entity> ecs::World::getEntity(Entity::Id id) const
 {
-	if (!isEntityValid(id)) {
+	if (!isEntityValid(id))
+	{
 		return std::nullopt;
 	}
 
@@ -67,7 +69,8 @@ std::optional<ecs::Entity> ecs::World::getEntity(std::string const &name) const
 {
 	auto const it{ m_names.find(name) };
 
-	if (it == m_names.end()) {
+	if (it == m_names.end())
+	{
 		return std::nullopt;
 	}
 
@@ -76,11 +79,13 @@ std::optional<ecs::Entity> ecs::World::getEntity(std::string const &name) const
 
 std::string ecs::World::getEntityName(Entity::Id id) const
 {
-	if (!isEntityValid(id)) {
+	if (!isEntityValid(id))
+	{
 		throw InvalidEntity{ "ecs::World::getEntityName()" };
 	}
 
-	if (m_entities[id].name.has_value()) {
+	if (m_entities[id].name.has_value())
+	{
 		return m_entities[id].name.value();
 	}
 
@@ -89,7 +94,8 @@ std::string ecs::World::getEntityName(Entity::Id id) const
 
 void ecs::World::enableEntity(Entity::Id id)
 {
-	if (!isEntityValid(id)) {
+	if (!isEntityValid(id))
+	{
 		throw InvalidEntity{ "ecs::World::enableEntity()" };
 	}
 
@@ -98,7 +104,8 @@ void ecs::World::enableEntity(Entity::Id id)
 
 void ecs::World::disableEntity(Entity::Id id)
 {
-	if (!isEntityValid(id)) {
+	if (!isEntityValid(id))
+	{
 		throw InvalidEntity{ "ecs::World::disableEntity()" };
 	}
 
@@ -107,7 +114,8 @@ void ecs::World::disableEntity(Entity::Id id)
 
 void ecs::World::refreshEntity(Entity::Id id)
 {
-	if (!isEntityValid(id)) {
+	if (!isEntityValid(id))
+	{
 		throw InvalidEntity{ "ecs::World::refreshEntity()" };
 	}
 
@@ -121,7 +129,8 @@ bool ecs::World::isEntityEnabled(Entity::Id id) const
 
 void ecs::World::removeEntity(Entity::Id id)
 {
-	if (!isEntityValid(id)) {
+	if (!isEntityValid(id))
+	{
 		throw InvalidEntity{ "ecs::World::removeEntity()" };
 	}
 
@@ -130,9 +139,11 @@ void ecs::World::removeEntity(Entity::Id id)
 
 void ecs::World::removeAllEntities()
 {
-	for (auto const &entity : m_entities) {
+	for (auto const &entity : m_entities)
+	{
 		// We may iterate through invalid entities
-		if (entity.isValid) {
+		if (entity.isValid)
+		{
 			removeEntity(entity.entity);
 		}
 	}
@@ -146,17 +157,20 @@ bool ecs::World::isEntityValid(Entity::Id id) const
 void ecs::World::update(float elapsed)
 {
 	// Start new Systems
-	for (auto &system : m_newSystems) {
+	for (auto &system : m_newSystems)
+	{
 		system->startEvent();
 	}
 
 	m_newSystems.clear();
 
-	updateSystems([elapsed](System &system, detail::TypeId) {
+	updateSystems([elapsed](System &system, detail::TypeId)
+	{
 		system.updateEvent(elapsed);
 	});
 
-	updateSystems([elapsed](System &system, detail::TypeId) {
+	updateSystems([elapsed](System &system, detail::TypeId)
+	{
 		system.postUpdateEvent(elapsed);
 	});
 }
@@ -181,11 +195,14 @@ void ecs::World::updateEntities()
 	auto const actionsList{ std::move(m_actions) };
 	m_actions = decltype(m_actions){};
 
-	for (auto const &action : actionsList) {
-		try {
+	for (auto const &action : actionsList)
+	{
+		try
+		{
 			executeAction(action);
 		}
-		catch (std::exception const &e) {
+		catch (std::exception const &e)
+		{
 			Log::error(e.what());
 		}
 	}
@@ -193,11 +210,13 @@ void ecs::World::updateEntities()
 
 void ecs::World::executeAction(EntityAction const &action)
 {
-	if (!isEntityValid(action.id)) {
+	if (!isEntityValid(action.id))
+	{
 		throw InvalidEntity{ "ecs::World::executeAction()" };
 	}
 
-	switch (action.action) {
+	switch (action.action)
+	{
 	case EntityAction::Action::Enable:
 		actionEnable(action.id);
 		break;
@@ -218,10 +237,12 @@ void ecs::World::executeAction(EntityAction const &action)
 
 void ecs::World::actionEnable(Entity::Id id)
 {
-	m_systems.forEach([&](System &system, detail::TypeId systemId) {
+	m_systems.forEach([&](System &system, detail::TypeId systemId)
+	{
 		auto const status{ tryAttach(system, systemId, id) };
 
-		if (status == AttachStatus::AlreadyAttached || status == AttachStatus::Attached) {
+		if (status == AttachStatus::AlreadyAttached || status == AttachStatus::Attached)
+		{
 			// The Entity is attached to the System, we enable it
 			system.enableEntity(m_entities[id].entity);
 		}
@@ -232,9 +253,11 @@ void ecs::World::actionDisable(Entity::Id id)
 {
 	m_entities[id].isEnabled = false;
 
-	m_systems.forEach([&](System &system, detail::TypeId systemId) {
+	m_systems.forEach([&](System &system, detail::TypeId systemId)
+	{
 		// Is the Entity attached to the System ?
-		if (systemId < m_entities[id].systems.size() && m_entities[id].systems[systemId]) {
+		if (systemId < m_entities[id].systems.size() && m_entities[id].systems[systemId])
+		{
 			system.disableEntity(m_entities[id].entity);
 		}
 	});
@@ -242,10 +265,12 @@ void ecs::World::actionDisable(Entity::Id id)
 
 void ecs::World::actionRefresh(Entity::Id id)
 {
-	m_systems.forEach([&](System &system, detail::TypeId systemId) {
+	m_systems.forEach([&](System &system, detail::TypeId systemId)
+	{
 		auto const status{ tryAttach(system, systemId, id) };
 
-		if (m_entities[id].isEnabled && status == AttachStatus::Attached) {
+		if (m_entities[id].isEnabled && status == AttachStatus::Attached)
+		{
 			// If the Entity has been attached and is enabled,
 			// we enable it into the System
 			system.enableEntity(m_entities[id].entity);
@@ -255,9 +280,11 @@ void ecs::World::actionRefresh(Entity::Id id)
 
 void ecs::World::actionRemove(Entity::Id id)
 {
-	m_systems.forEach([&](System &system, detail::TypeId systemId) {
+	m_systems.forEach([&](System &system, detail::TypeId systemId)
+	{
 		// Is the Entity attached to the System ?
-		if (systemId < m_entities[id].systems.size() && m_entities[id].systems[systemId]) {
+		if (systemId < m_entities[id].systems.size() && m_entities[id].systems[systemId])
+		{
 			system.detachEntity(m_entities[id].entity);
 			m_entities[id].systems[systemId] = false;
 		}
@@ -268,7 +295,8 @@ void ecs::World::actionRemove(Entity::Id id)
 	m_entities[id].systems.clear();
 
 	// Remove its name from the list
-	if (m_entities[id].name.has_value()) {
+	if (m_entities[id].name.has_value())
+	{
 		m_names.erase(m_entities[id].name.value());
 		m_entities[id].name.reset();
 	}
@@ -280,10 +308,13 @@ void ecs::World::actionRemove(Entity::Id id)
 ecs::World::AttachStatus ecs::World::tryAttach(System &system, detail::TypeId systemId, Entity::Id id)
 {
 	// Does the Entity match the requirements to be part of the System ?
-	if (system.getFilter().check(m_components.getComponentsMask(id))) {
+	if (system.getFilter().check(m_components.getComponentsMask(id)))
+	{
 		// Is the Entity not already attached to the System ?
-		if (systemId >= m_entities[id].systems.size() || !m_entities[id].systems[systemId]) {
-			if (systemId >= m_entities[id].systems.size()) {
+		if (systemId >= m_entities[id].systems.size() || !m_entities[id].systems[systemId])
+		{
+			if (systemId >= m_entities[id].systems.size())
+			{
 				m_entities[id].systems.resize(systemId + 1, false);
 			}
 
@@ -299,7 +330,8 @@ ecs::World::AttachStatus ecs::World::tryAttach(System &system, detail::TypeId sy
 	}
 	// If the Entity is already attached to the System but doest not
 	// match the requirements anymore, we detach it from the System
-	else if (systemId < m_entities[id].systems.size() && m_entities[id].systems[systemId]) {
+	else if (systemId < m_entities[id].systems.size() && m_entities[id].systems[systemId])
+	{
 		system.detachEntity(m_entities[id].entity);
 		m_entities[id].systems[systemId] = false;
 
@@ -314,7 +346,8 @@ ecs::World::AttachStatus ecs::World::tryAttach(System &system, detail::TypeId sy
 
 void ecs::World::extend(std::size_t size)
 {
-	if (size > m_entities.size()) {
+	if (size > m_entities.size())
+	{
 		m_entities.resize(size);
 		m_components.resize(size);
 	}

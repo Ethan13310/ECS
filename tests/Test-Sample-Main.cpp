@@ -1,5 +1,5 @@
-// Copyright (c) 2018 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #include <functional>
 #include <vector>
@@ -29,7 +29,8 @@ public:
 	{
 		auto entities{ getEntities() };
 
-		for (auto &entity : entities) {
+		for (auto &entity : entities)
+		{
 			entity.getComponent<BasicComponent>().value += 1;
 		}
 	}
@@ -80,7 +81,8 @@ lest::test const specification[] =
 		EXPECT(components[0].get().value == 0);
 		EXPECT(components[1].get().value == 10);
 
-		for (std::size_t i{ 0 }; i < 5; ++i) {
+		for (std::size_t i{ 0 }; i < 5; ++i)
+		{
 			world.update(0);
 		}
 

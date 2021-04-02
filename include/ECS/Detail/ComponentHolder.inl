@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #pragma once
 
@@ -10,14 +10,16 @@
 template <class T>
 T &ecs::detail::ComponentHolder::addComponent(Entity::Id id, std::unique_ptr<T> &&component)
 {
-	if (id >= m_components.size()) {
+	if (id >= m_components.size())
+	{
 		// The Entity ID is out of range
 		throw InvalidEntity{ "ecs::Entity::addComponent()" };
 	}
 
 	auto const typeId{ getComponentTypeId<T>() };
 
-	if (typeId >= m_components[id].size()) {
+	if (typeId >= m_components[id].size())
+	{
 		// The Component type ID is out of range
 		throw InvalidComponent{ "ecs::Entity::addComponent()" };
 	}
@@ -33,7 +35,8 @@ T &ecs::detail::ComponentHolder::getComponent(Entity::Id id)
 {
 	auto component{ getComponentPtr<T>(id) };
 
-	if (!component.has_value() || component.value().get() == nullptr) {
+	if (!component.has_value() || component.value().get() == nullptr)
+	{
 		// The Component does not exist
 		throw Exception{ "Entity does not have this Component.", "ecs::Entity::getComponent()" };
 	}
@@ -45,11 +48,13 @@ template <class T>
 bool ecs::detail::ComponentHolder::hasComponent(Entity::Id id) const
 {
 	// Is the Entity ID and the Component type ID known
-	if (id < m_components.size()) {
+	if (id < m_components.size())
+	{
 		auto const typeId{ getComponentTypeId<T>() };
 
 		// Is the Component type ID known
-		if (typeId < m_components[id].size()) {
+		if (typeId < m_components[id].size())
+		{
 			return m_components[id][typeId] != nullptr;
 		}
 	}
@@ -62,7 +67,8 @@ void ecs::detail::ComponentHolder::removeComponent(Entity::Id id)
 {
 	auto component{ getComponentPtr<T>(id) };
 
-	if (component.has_value()) {
+	if (component.has_value())
+	{
 		// The Component exists, we remove it
 		component.value()->reset();
 		m_componentsMasks[id].reset(getComponentTypeId<T>());
@@ -72,7 +78,8 @@ void ecs::detail::ComponentHolder::removeComponent(Entity::Id id)
 template <class T>
 ecs::detail::OptionalReference<std::unique_ptr<ecs::Component>> ecs::detail::ComponentHolder::getComponentPtr(Entity::Id id)
 {
-	if (!hasComponent<T>(id)) {
+	if (!hasComponent<T>(id))
+	{
 		// The Component does not exist
 		return std::nullopt;
 	}

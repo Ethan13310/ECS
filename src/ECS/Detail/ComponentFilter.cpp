@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #include <ECS/Detail/ComponentFilter.hpp>
 
@@ -19,12 +19,15 @@ bool ecs::detail::ComponentFilter::check(Mask const &mask) const
 	auto const excludeMask{ m_excluded & mask };
 
 	// Check if there is an excluded component
-	if (excludeMask.any()) {
+	if (excludeMask.any())
+	{
 		return false;
 	}
 
-	for (std::size_t i{ 0 }; i < m_required.size(); ++i) {
-		if (m_required[i] && !mask[i]) {
+	for (std::size_t i{ 0 }; i < m_required.size(); ++i)
+	{
+		if (m_required[i] && !mask[i]) 
+		{
 			// A required component is missing
 			return false;
 		}

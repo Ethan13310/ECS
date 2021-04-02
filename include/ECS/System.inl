@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #pragma once
 
@@ -13,8 +13,10 @@
 template <class Func>
 void ecs::System::forEach(Func &&func)
 {
-	for (auto const &entity : m_enabledEntities) {
-		if (entity.isValid()) {
+	for (auto const &entity : m_enabledEntities)
+	{
+		if (entity.isValid())
+		{
 			func(entity);
 		}
 	}
@@ -40,10 +42,12 @@ ecs::Event::Id ecs::System::connectEvent(Func &&func)
 template <class Func>
 void ecs::System::callEvent(Func &&func)
 {
-	try {
+	try
+	{
 		func();
 	}
-	catch (std::exception const &e) {
+	catch (std::exception const &e)
+	{
 		Log::error(e.what());
 	}
 }

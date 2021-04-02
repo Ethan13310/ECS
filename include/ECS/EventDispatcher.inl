@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #pragma once
 
@@ -13,7 +13,8 @@ void ecs::EventDispatcher::emit(T const &evt) const
 
 	auto const range{ m_listeners.equal_range(getEventTypeId<T>()) };
 
-	for (auto it{ range.first }; it != range.second; ++it) {
+	for (auto it{ range.first }; it != range.second; ++it)
+	{
 		it->second.func(&evt);
 	}
 }
@@ -23,7 +24,8 @@ ecs::Event::Id ecs::EventDispatcher::connect(Func &&func)
 {
 	static_assert(std::is_base_of<Event, T>::value, "T must be an Event.");
 
-	auto slot = [func](void const *evt) {
+	auto slot = [func](void const *evt)
+	{
 		func(*static_cast<T const *>(evt));
 	};
 

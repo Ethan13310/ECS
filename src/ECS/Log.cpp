@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 // std::localtime
 #define _CRT_SECURE_NO_WARNINGS
@@ -54,7 +54,8 @@ bool ecs::Log::colorsEnabled() noexcept
 
 void ecs::Log::log(std::string const &header, Color headerColor, std::string const &message)
 {
-	if (m_enableDateTime) {
+	if (m_enableDateTime) 
+	{
 		printHeader(getDate(), Color::Default);
 	}
 
@@ -86,11 +87,13 @@ void ecs::Log::print(std::string const &message)
 
 void ecs::Log::format(Style style)
 {
-	if (!m_enableColors) {
+	if (!m_enableColors)
+	{
 		return;
 	}
 
-	switch (style) {
+	switch (style)
+	{
 	case Style::Bold:
 		std::cout << "\033[1m";
 		break;
@@ -106,11 +109,13 @@ void ecs::Log::format(Style style)
 
 void ecs::Log::format(Color color)
 {
-	if (!m_enableColors) {
+	if (!m_enableColors)
+	{
 		return;
 	}
 
-	switch (color) {
+	switch (color)
+	{
 	case Color::Cyan:
 		std::cout << "\033[96m";
 		break;
@@ -155,13 +160,15 @@ bool ecs::Log::ColorsInitializer::initWindowsConsole() const noexcept
 
 	HANDLE const hOut{ GetStdHandle(STD_OUTPUT_HANDLE) };
 
-	if (hOut == INVALID_HANDLE_VALUE) {
+	if (hOut == INVALID_HANDLE_VALUE)
+	{
 		return false;
 	}
 
 	DWORD dwMode{ 0 };
 
-	if (!GetConsoleMode(hOut, &dwMode)) {
+	if (!GetConsoleMode(hOut, &dwMode))
+	{
 		return false;
 	}
 
@@ -172,7 +179,8 @@ bool ecs::Log::ColorsInitializer::initWindowsConsole() const noexcept
 
 	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 
-	if (!SetConsoleMode(hOut, dwMode)) {
+	if (!SetConsoleMode(hOut, dwMode)) 
+	{
 		return false;
 	}
 

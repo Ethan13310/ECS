@@ -1,5 +1,5 @@
-// Copyright (c) 2019 Ethan Margaillan <contact@ethan.jp>.
-// Licensed under the MIT Licence - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
+// Copyright (c) 2021 Ethan Margaillan <contact@ethan.jp>.
+// Licensed under the MIT License - https://raw.githubusercontent.com/Ethan13310/ECS/master/LICENSE
 
 #include <ECS/Detail/SystemHolder.hpp>
 
@@ -10,8 +10,10 @@ ecs::detail::SystemHolder::~SystemHolder()
 
 void ecs::detail::SystemHolder::removeAllSystems()
 {
-	for (auto &system : m_systems) {
-		if (system.second != nullptr) {
+	for (auto &system : m_systems) 
+	{
+		if (system.second != nullptr)
+		{
 			system.second->shutdownEvent();
 			system.second->detachAll();
 		}
@@ -23,11 +25,14 @@ void ecs::detail::SystemHolder::removeAllSystems()
 
 void ecs::detail::SystemHolder::removeSystemPriority(detail::TypeId id)
 {
-	for (auto it{ m_priorities.begin() }; it != m_priorities.end();) {
-		if (it->second == id) {
+	for (auto it{ m_priorities.begin() }; it != m_priorities.end();) 
+	{
+		if (it->second == id) 
+		{
 			it = m_priorities.erase(it);
 		}
-		else {
+		else 
+		{
 			++it;
 		}
 	}
